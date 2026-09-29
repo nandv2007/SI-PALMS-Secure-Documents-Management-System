@@ -44,40 +44,40 @@ export const PoliceCategoryUploadView: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-3 border-b border-[#7CD5C7]/30 pb-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="mb-1 text-xs font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <div className="mb-1 text-xs font-mono font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
             <span>Case workspace</span>
             <span className="text-slate-300">/</span>
-            <span className="text-cyan-600 font-extrabold">{activeCaseId}</span>
+            <span className="text-[#118AB2] font-extrabold">{activeCaseId}</span>
           </div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-950">{activeCase?.title || `Case ${activeCaseId}`}</h1>
+          <h1 className="text-2xl font-extrabold tracking-tight text-[#073B4C]">{activeCase?.title || `Case ${activeCaseId}`}</h1>
         </div>
         <div className="text-xs text-slate-500 font-mono">
-          Managing Officer: <span className="font-bold text-slate-800">{user?.name}</span>
+          Managing Officer: <span className="font-bold text-[#073B4C]">{user?.name}</span>
         </div>
       </div>
 
       {/* Forensic Dispatch Action Banner */}
       <div className={`rounded-3xl border p-5 transition-all shadow-sm ${
         isSentToForensic 
-          ? 'bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-emerald-300 text-emerald-950' 
-          : 'bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border-amber-300 text-amber-950'
+          ? 'bg-gradient-to-r from-[#7CD5C7]/20 via-[#F2F2ED] to-[#7CD5C7]/20 border-[#7CD5C7] text-[#073B4C]' 
+          : 'bg-gradient-to-r from-[#F2F2ED] via-white to-[#F2F2ED] border-[#7CD5C7]/50 text-[#073B4C]'
       }`}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start gap-4">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-              isSentToForensic ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'
+              isSentToForensic ? 'bg-[#118AB2] text-white' : 'bg-[#073B4C] text-[#7CD5C7]'
             }`}>
               <Microscope className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-semibold">Forensic review</h3>
+                <h3 className="text-sm font-semibold text-[#073B4C]">Forensic review</h3>
                 <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-md ${
                   isSentToForensic 
-                    ? 'bg-emerald-200 text-emerald-900 border border-emerald-300' 
-                    : 'bg-amber-200 text-amber-900 border border-amber-300'
+                    ? 'bg-[#7CD5C7]/30 text-[#073B4C] border border-[#7CD5C7]/50' 
+                    : 'bg-[#F2F2ED] text-[#073B4C] border border-[#7CD5C7]/40'
                 }`}>
                   {activeCase?.status || 'OPEN_INVESTIGATION'}
                 </span>
@@ -92,8 +92,8 @@ export const PoliceCategoryUploadView: React.FC = () => {
 
           <div className="shrink-0">
             {isSentToForensic ? (
-              <div className="px-5 py-3 rounded-2xl bg-emerald-700 text-white text-xs font-bold flex items-center gap-2 shadow-sm">
-                <CheckCircle2 className="w-4 h-4 text-emerald-200" />
+              <div className="px-5 py-3 rounded-2xl bg-[#118AB2] text-white text-xs font-bold flex items-center gap-2 shadow-sm">
+                <CheckCircle2 className="w-4 h-4 text-[#7CD5C7]" />
                 <span>Dispatched to Forensic Lab</span>
               </div>
             ) : (
@@ -101,7 +101,7 @@ export const PoliceCategoryUploadView: React.FC = () => {
                 type="button"
                 onClick={handleSendToForensic}
                 disabled={loading}
-                className="px-5 py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold flex items-center gap-2 cursor-pointer shadow-md transition-all disabled:opacity-50"
+                className="px-5 py-3 rounded-2xl bg-[#118AB2] hover:bg-[#073B4C] text-white text-xs font-bold flex items-center gap-2 cursor-pointer shadow-md transition-all disabled:opacity-50"
               >
                 <span>{loading ? 'Dispatching Case...' : 'Send Case to Forensic Lab'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -111,8 +111,8 @@ export const PoliceCategoryUploadView: React.FC = () => {
         </div>
 
         {dispatchStatusMsg && (
-          <div className="mt-4 p-3 rounded-xl bg-emerald-100 border border-emerald-300 text-xs font-bold text-emerald-900 flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+          <div className="mt-4 p-3 rounded-xl bg-[#7CD5C7]/20 border border-[#7CD5C7] text-xs font-bold text-[#073B4C] flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-[#118AB2]" />
             <span>{dispatchStatusMsg}</span>
           </div>
         )}
@@ -128,8 +128,8 @@ export const PoliceCategoryUploadView: React.FC = () => {
       <ForensicReportList />
 
       {/* Category Upload Cards Grid */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 pt-1 text-sm font-semibold text-slate-800">
-        <Files className="h-4 w-4 text-slate-500" /> Case documents
+      <div className="flex items-center gap-2 border-b border-[#7CD5C7]/30 pb-2 pt-1 text-sm font-semibold text-[#073B4C]">
+        <Files className="h-4 w-4 text-[#118AB2]" /> Case documents
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {CATEGORIES.map((cat) => (

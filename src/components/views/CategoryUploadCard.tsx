@@ -8,17 +8,16 @@ interface CategoryUploadCardProps {
   category: CaseFileCategory;
   title: string;
   documents: string;
-  tone: 'blue' | 'amber';
+  tone?: 'blue' | 'amber';
 }
 
-export const CategoryUploadCard: React.FC<CategoryUploadCardProps> = ({ category, title, documents, tone }) => {
+export const CategoryUploadCard: React.FC<CategoryUploadCardProps> = ({ category, title, documents }) => {
   const { activeCase, activeCaseId, uploadFileToActiveCase } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [description, setDescription] = useState('');
   const [success, setSuccess] = useState(false);
   const [viewingFile, setViewingFile] = useState<UploadedCaseFile | null>(null);
   const files = activeCase?.uploadedFiles.filter((uploadedFile) => uploadedFile.category === category) ?? [];
-  const isBlue = tone === 'blue';
 
   const upload = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -33,34 +32,42 @@ export const CategoryUploadCard: React.FC<CategoryUploadCardProps> = ({ category
   };
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+    <section 
+      className="rounded-3xl border p-6 shadow-sm space-y-4"
+      style={{ backgroundColor: '#ffffff', borderColor: '#7CD5C7' }}
+    >
       <DocumentViewerModal file={viewingFile} caseId={activeCaseId || ''} onClose={() => setViewingFile(null)} />
       
-      <div className="flex items-start justify-between gap-3 border-b border-slate-100 pb-3.5">
+      <div className="flex items-start justify-between gap-3 border-b pb-3.5" style={{ borderColor: 'rgba(124, 213, 199, 0.4)' }}>
         <div>
-          <h3 className="text-sm font-bold text-slate-900">{title}</h3>
-          <p className="mt-1 text-[11px] leading-relaxed text-slate-500">{documents}</p>
+          <h3 className="text-sm font-bold" style={{ color: '#118AB2' }}>{title}</h3>
+          <p className="mt-1 text-[11px] leading-relaxed text-[#073B4C] opacity-80">{documents}</p>
         </div>
-        <span className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-mono font-bold ${
-          isBlue ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
-        }`}>
+        <span 
+          className="shrink-0 rounded-full px-2.5 py-1 text-[10px] font-mono font-bold border"
+          style={{ backgroundColor: '#F2F2ED', color: '#118AB2', borderColor: '#7CD5C7' }}
+        >
           {files.length} {files.length === 1 ? 'FILE' : 'FILES'}
         </span>
       </div>
 
       <form onSubmit={upload} className="space-y-3">
-        <div className="p-3.5 rounded-2xl bg-slate-50/80 border-2 border-dashed border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 transition-all">
+        <div 
+          className="p-3.5 rounded-2xl border-2 border-dashed transition-all"
+          style={{ backgroundColor: '#F2F2ED', borderColor: '#7CD5C7' }}
+        >
           <input
             type="file"
             required
             onChange={(event) => setFile(event.target.files?.[0] ?? null)}
-            className="block w-full text-xs text-slate-500 file:mr-3 file:rounded-xl file:border-0 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white file:bg-slate-800 hover:file:bg-slate-900 cursor-pointer"
+            className="block w-full text-xs text-[#073B4C] file:mr-3 file:rounded-xl file:border-0 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-[#F2F2ED] cursor-pointer"
+            style={{ color: '#073B4C' }}
           />
         </div>
 
         {file && (
-          <p className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 font-mono">
-            <CheckCircle2 className="h-3.5 w-3.5" /> Selected: {file.name} ({(file.size / 1024).toFixed(1)} KB)
+          <p className="flex items-center gap-1.5 text-[11px] font-medium font-mono" style={{ color: '#118AB2' }}>
+            <CheckCircle2 className="h-3.5 w-3.5 text-[#118AB2]" /> Selected: {file.name} ({(file.size / 1024).toFixed(1)} KB)
           </p>
         )}
 
@@ -69,29 +76,30 @@ export const CategoryUploadCard: React.FC<CategoryUploadCardProps> = ({ category
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           placeholder={`Investigation notes for this ${title.toLowerCase()} record...`}
-          className="w-full rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/10 focus:outline-none font-mono"
+          className="w-full rounded-2xl border px-3.5 py-2.5 text-xs focus:outline-none font-mono"
+          style={{ backgroundColor: '#F2F2ED', color: '#073B4C', borderColor: '#7CD5C7' }}
         />
 
         <button
           type="submit"
-          className={`flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-xs font-bold text-white cursor-pointer shadow-md transition-all ${
-            isBlue 
-              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-blue-600/20' 
-              : 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 shadow-amber-600/20'
-          }`}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-xs font-bold text-white cursor-pointer shadow-md transition-all hover:brightness-110 active:scale-95"
+          style={{ backgroundColor: '#118AB2', color: '#F2F2ED', border: '1px solid #118AB2' }}
         >
           <Upload className="h-4 w-4" /> Seal & Anchor {title}
         </button>
       </form>
 
       {success && (
-        <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900 flex items-center gap-2 shadow-2xs">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div 
+          className="p-3 rounded-2xl border text-xs font-bold flex items-center gap-2 shadow-2xs font-mono"
+          style={{ backgroundColor: '#F2F2ED', borderColor: '#7CD5C7', color: '#118AB2' }}
+        >
+          <CheckCircle2 className="w-4 h-4 text-[#118AB2] shrink-0" />
           <span>Uploaded, Signed & Anchored on Blockchain for Case {activeCaseId}!</span>
         </div>
       )}
 
-      <div className="space-y-3 border-t border-slate-100 pt-3.5">
+      <div className="space-y-3 border-t pt-3.5" style={{ borderColor: 'rgba(124, 213, 199, 0.4)' }}>
         {files.length ? (
           files.map((uploadedFile) => {
             const txHash = uploadedFile.txHash || `0x${uploadedFile.sha256Hash}`;
@@ -100,16 +108,25 @@ export const CategoryUploadCard: React.FC<CategoryUploadCardProps> = ({ category
             const isLatest = uploadedFile.isLatestVersion !== false;
 
             return (
-              <div key={uploadedFile.fileId} className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5 space-y-2.5 text-xs">
+              <div 
+                key={uploadedFile.fileId} 
+                className="rounded-2xl border p-3.5 space-y-2.5 text-xs"
+                style={{ backgroundColor: '#F2F2ED', borderColor: '#7CD5C7' }}
+              >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 truncate">
-                    <span className="font-bold text-slate-900 truncate flex items-center gap-1.5">
-                      <FileText className={`h-4 w-4 shrink-0 ${isBlue ? 'text-blue-600' : 'text-amber-600'}`} />
+                    <span className="font-bold text-[#073B4C] truncate flex items-center gap-1.5">
+                      <FileText className="h-4 w-4 shrink-0 text-[#118AB2]" />
                       {uploadedFile.fileName}
                     </span>
-                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold shrink-0 flex items-center gap-1 ${
-                      isLatest ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
-                    }`}>
+                    <span 
+                      className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold shrink-0 flex items-center gap-1"
+                      style={{
+                        backgroundColor: isLatest ? '#118AB2' : '#ffffff',
+                        color: isLatest ? '#F2F2ED' : '#073B4C',
+                        border: '1px solid #7CD5C7'
+                      }}
+                    >
                       <GitCommit className="w-3 h-3" /> {verTag} {isLatest ? '[LATEST]' : ''}
                     </span>
                   </div>
@@ -117,37 +134,47 @@ export const CategoryUploadCard: React.FC<CategoryUploadCardProps> = ({ category
                   <button
                     type="button"
                     onClick={() => setViewingFile(uploadedFile)}
-                    className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-all shrink-0 shadow-2xs"
+                    className="px-3 py-1.5 rounded-xl text-white font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-all shrink-0 shadow-2xs hover:brightness-110"
+                    style={{ backgroundColor: '#118AB2', color: '#F2F2ED' }}
                   >
                     <Eye className="h-3.5 w-3.5" /> Proof
                   </button>
                 </div>
 
-                <div className="space-y-1.5 font-mono text-[10px] bg-white p-2.5 rounded-xl border border-slate-200">
-                  <div className="flex items-center justify-between text-emerald-800 font-bold">
+                <div 
+                  className="space-y-1.5 font-mono text-[10px] p-2.5 rounded-xl border"
+                  style={{ backgroundColor: '#ffffff', borderColor: '#7CD5C7' }}
+                >
+                  <div className="flex items-center justify-between font-bold" style={{ color: '#118AB2' }}>
                     <span className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span className="w-2 h-2 rounded-full bg-[#118AB2] animate-pulse"></span>
                       TX: {txHash.substring(0, 16)}...
                     </span>
-                    <span className="px-1.5 py-0.5 rounded bg-emerald-100 border border-emerald-200 text-emerald-800 text-[9px]">
+                    <span 
+                      className="px-1.5 py-0.5 rounded border text-[9px]"
+                      style={{ backgroundColor: '#F2F2ED', color: '#118AB2', borderColor: '#7CD5C7' }}
+                    >
                       BLOCK #{blockNum}
                     </span>
                   </div>
 
-                  <div className="text-purple-900 truncate">
+                  <div className="truncate text-[#073B4C]">
                     SHA-256: {uploadedFile.sha256Hash}
                   </div>
 
-                  <div className="text-indigo-900 font-sans text-[10px] font-bold flex items-center justify-between pt-1 border-t border-slate-100">
-                    <span className="flex items-center gap-1 text-indigo-700">
+                  <div className="font-sans text-[10px] font-bold flex items-center justify-between pt-1 border-t" style={{ borderColor: 'rgba(124, 213, 199, 0.4)' }}>
+                    <span className="flex items-center gap-1 text-[#118AB2]">
                       ✍️ Signed by {uploadedFile.uploadedByOfficerName}
                     </span>
-                    <span className="text-[9px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded font-bold">
+                    <span 
+                      className="text-[9px] font-mono border px-1.5 py-0.2 rounded font-bold"
+                      style={{ backgroundColor: '#F2F2ED', color: '#118AB2', borderColor: '#7CD5C7' }}
+                    >
                       PKI ECDSA VALID
                     </span>
                   </div>
 
-                  <div className="text-slate-500 text-[9px] pt-0.5">
+                  <div className="text-[9px] pt-0.5 opacity-80 text-[#073B4C]">
                     ID: {uploadedFile.uploadedByOfficerId} ({uploadedFile.uploadedByRole}) • {uploadedFile.uploadTime}
                   </div>
                 </div>
@@ -155,8 +182,8 @@ export const CategoryUploadCard: React.FC<CategoryUploadCardProps> = ({ category
             );
           })
         ) : (
-          <p className="flex items-center gap-2 text-[11px] text-slate-400 py-1 font-mono">
-            <FolderOpen className="h-4 w-4" /> No {title.toLowerCase()} files sealed yet.
+          <p className="flex items-center gap-2 text-[11px] py-1 font-mono opacity-80 text-[#073B4C]">
+            <FolderOpen className="h-4 w-4 text-[#118AB2]" /> No {title.toLowerCase()} files sealed yet.
           </p>
         )}
       </div>

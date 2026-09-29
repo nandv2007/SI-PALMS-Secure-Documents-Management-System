@@ -1,6 +1,7 @@
 import type { UserProfile, CaseRecord, UploadedCaseFile, CaseFileCategory, SecurityLog } from '../types/auth';
 
 const TOKEN_KEY = 'sipalms_jwt_token_v3';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 
 export interface AuditLogRecord {
   id: number;
@@ -78,7 +79,7 @@ async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise
     headers['Content-Type'] = 'application/json';
   }
 
-  const response = await fetch(endpoint, {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     headers
   });
@@ -237,7 +238,191 @@ export const api = {
   },
 
   async searchPersons(query: string) {
-    return apiFetch<{ success: boolean; query: string; count: number; results: PersonRecord[] }>(`/api/persons/search?q=${encodeURIComponent(query)}`);
+    try {
+      return await apiFetch<{ success: boolean; query: string; count: number; results: PersonRecord[] }>(`/api/persons/search?q=${encodeURIComponent(query)}`);
+    } catch (err) {
+      // Offline fallback search
+      const q = query.trim();
+      const normalizeText = (text: string): string => {
+        if (!text) return '';
+        const cleaned = text.replace(/[\-_/\\.,:;()\[\]{}"' `!?+@#$^&*~|=]/g, ' ');
+        return cleaned.split(/\s+/).filter(Boolean).join(' ').toLowerCase();
+      };
+
+      const isTextMatching = (searchQuery: string, targetText: string): boolean => {
+        if (!searchQuery || !searchQuery.trim()) return true;
+        const normQuery = normalizeText(searchQuery);
+        const normTarget = normalizeText(targetText);
+        if (!normQuery || !normTarget) return false;
+        if (normTarget.includes(normQuery)) return true;
+        const queryWords = normQuery.split(' ');
+        return queryWords.every(w => normTarget.includes(w));
+      };
+
+      const savedCasesRaw = localStorage.getItem('sipalms_cases_v3');
+      const savedUsersRaw = localStorage.getItem('sipalms_users_v3');
+
+      const localCases: Record<string, any> = savedCasesRaw ? JSON.parse(savedCasesRaw) : {};
+      const localUsers: Record<string, any> = savedUsersRaw ? JSON.parse(savedUsersRaw) : {};
+
+      const results: PersonRecord[] = [];
+
+      // 1. Official Registered Personnel
+      Object.values(localUsers).forEach((u: any) => {
+        const userName = u.name || u.id;
+        const userSearchable = `${u.id} ${userName} ${u.rankTitle || ''} ${u.role || ''} ${u.badgeNumber || ''} ${u.department || ''} ${u.station || ''}`;
+
+        const userCases: PersonCaseInvolvement[] = [];
+        Object.values(localCases).forEach((c: any) => {
+          const isOfficerInCase = (u.assignedCaseIds || []).includes(c.caseId) || (c.assignedOfficerIds || []).includes(u.id) || c.assignedLawyerId === u.id;
+          const userFiles = (c.uploadedFiles || []).filter((f: any) => f.uploadedByOfficerId === u.id);
+          const caseSearchable = `${c.caseId} ${c.title} ${c.incidentLocation} ${c.status} ${(c.uploadedFiles || []).map((f: any) => `${f.fileName} ${f.description} ${f.category} ${f.fileId} ${f.uploadedByOfficerName}`).join(' ')}`;
+
+          if (isOfficerInCase || userFiles.length > 0) {
+            if (!q || isTextMatching(q, userSearchable) || isTextMatching(q, caseSearchable)) {
+              const matchingFiles = (c.uploadedFiles || []).filter((f: any) => {
+                const fText = `${f.fileName} ${f.description} ${f.category} ${f.fileId} ${f.uploadedByOfficerName}`;
+                return !q || isTextMatching(q, fText) || f.uploadedByOfficerId === u.id;
+              });
+
+              userCases.push({
+                caseId: c.caseId,
+                title: c.title,
+                incidentLocation: c.incidentLocation,
+                status: c.status,
+                roleInCase: 'Assigned case personnel',
+                matchReason: 'Personnel profile or associated case files match search criteria.',
+                matchingFiles: matchingFiles.map((f: any) => ({
+                  fileId: f.fileId,
+                  fileName: f.fileName,
+                  category: f.category,
+                  uploadTime: f.uploadTime,
+                  description: f.description
+                }))
+              });
+            }
+          }
+        });
+
+        if (isTextMatching(q, userSearchable) || userCases.length > 0) {
+          results.push({
+            id: u.id,
+            name: userName,
+            rankTitle: u.rankTitle || u.role || 'Personnel',
+            role: u.role || '',
+            prefix: u.prefix || '',
+            category: 'Official Personnel',
+            department: u.department || '',
+            station: u.station || '',
+            badgeNumber: u.badgeNumber || '',
+            clearance: u.clearance || '',
+            totalCasesInvolved: userCases.length,
+            cases: userCases
+          });
+        }
+      });
+
+      // 2. Mentioned Subject / Person Entity Record (e.g. Dharambir Singh)
+      if (q) {
+        const entityCasesMap: Record<string, PersonCaseInvolvement> = {};
+        Object.values(localCases).forEach((c: any) => {
+          const caseMatches = isTextMatching(q, `${c.caseId} ${c.title} ${c.incidentLocation}`);
+          const matchingFiles = (c.uploadedFiles || []).filter((f: any) => {
+            const blob = `${f.fileName} ${f.description} ${f.category} ${f.fileId} ${f.uploadedByOfficerName} ${f.uploadedByOfficerId} ${c.caseId} ${c.title}`;
+            return isTextMatching(q, blob);
+          });
+
+          if (caseMatches || matchingFiles.length > 0) {
+            entityCasesMap[c.caseId] = {
+              caseId: c.caseId,
+              title: c.title,
+              incidentLocation: c.incidentLocation,
+              status: c.status,
+              roleInCase: 'Subject / Person Mentioned in Case Evidence',
+              matchReason: 'Search query matches entity mentioned in case record or file metadata.',
+              matchingFiles: matchingFiles.map((f: any) => ({
+                fileId: f.fileId,
+                fileName: f.fileName,
+                category: f.category,
+                uploadTime: f.uploadTime,
+                description: f.description
+              }))
+            };
+          }
+        });
+
+        const entityCases = Object.values(entityCasesMap);
+        const hasOfficerMatch = results.some(r => isTextMatching(q, r.name));
+        if (entityCases.length > 0 && !hasOfficerMatch) {
+          results.unshift({
+            id: `ENT-${Math.abs(q.split('').reduce((acc, char) => (acc << 5) - acc + char.charCodeAt(0), 0)).toString(16).toUpperCase()}`,
+            name: q.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+            rankTitle: 'Subject / Mentioned Entity in Case Evidence',
+            role: 'CASE_ENTITY',
+            prefix: 'ENT',
+            category: 'Official Personnel',
+            department: 'Cross-Case Evidence Mapping',
+            station: 'Case Evidence Vault',
+            badgeNumber: 'ENT-REF-KEY',
+            clearance: 'Level 1 - Case Details',
+            totalCasesInvolved: entityCases.length,
+            cases: entityCases
+          });
+        }
+
+        // 3. Document References List
+        const docCasesMap: Record<string, PersonCaseInvolvement> = {};
+        Object.values(localCases).forEach((c: any) => {
+          const cFiles = (c.uploadedFiles || []).filter((f: any) => {
+            const blob = `${f.fileName} ${f.description} ${f.category} ${f.fileId} ${f.uploadedByOfficerName} ${f.uploadedByOfficerId} ${c.caseId} ${c.title}`;
+            return isTextMatching(q, blob);
+          });
+
+          if (cFiles.length > 0) {
+            docCasesMap[c.caseId] = {
+              caseId: c.caseId,
+              title: c.title,
+              incidentLocation: c.incidentLocation,
+              status: c.status,
+              roleInCase: 'Matching evidence record',
+              matchReason: 'Search query matches file name, category, description, or file ID.',
+              matchingFiles: cFiles.map((f: any) => ({
+                fileId: f.fileId,
+                fileName: f.fileName,
+                category: f.category,
+                uploadTime: f.uploadTime,
+                description: f.description
+              }))
+            };
+          }
+        });
+
+        const docCases = Object.values(docCasesMap);
+        if (docCases.length > 0) {
+          results.push({
+            id: 'MATCH-LOCAL-DOCS',
+            name: `Files matching “${query.trim()}”`,
+            rankTitle: 'Case evidence search result',
+            role: 'DOCUMENT_MATCH',
+            prefix: 'DOC',
+            category: 'Document references',
+            department: 'Authorized case records',
+            station: '',
+            badgeNumber: '',
+            clearance: '',
+            totalCasesInvolved: docCases.length,
+            cases: docCases
+          });
+        }
+      }
+
+      return {
+        success: true,
+        query,
+        count: results.length,
+        results
+      };
+    }
   }
 };
 

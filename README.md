@@ -1,79 +1,32 @@
-# Secure Documents Management System (SI-PALMS)
+# React + TypeScript + Vite
 
-A secure, role-based police & legal document management system featuring cryptographic document integrity verification, EVM blockchain anchoring, tamper detection, and audit logging.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
----
+Currently, two official plugins are available:
 
-## 🚀 Quick Deploy to Render
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-Deploy this repository with **1-click Blueprint** on [Render.com](https://render.com):
+## React Compiler
 
-1. Push this repository to your GitHub account.
-2. Go to [Render Dashboard](https://dashboard.render.com/) $\rightarrow$ Click **New +** $\rightarrow$ Select **Blueprint**.
-3. Select your repository.
-4. Fill in the MySQL connection details (`MYSQL_HOST`, `MYSQL_USER`, `MYSQL_PASSWORD`, etc.) from your cloud database provider (e.g. [TiDB Cloud](https://tidbcloud.com/) or [Aiven](https://aiven.io/)).
-5. Click **Apply** to deploy!
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
----
+## Expanding the Oxlint configuration
 
-## 🛠️ Tech Stack
+If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
 
-- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS 4, Lucide Icons
-- **Backend**: Python 3, FastAPI, Uvicorn, PyMySQL, PyJWT, Eth-Account (EVM Blockchain simulation)
-- **Database**: MySQL 8.0 / TiDB Cloud / Aiven MySQL
-- **Deployment**: Render Blueprint (`render.yaml`)
-
----
-
-## 🔑 Pre-Seeded Default Accounts
-
-| Role | Officer / User ID | Password | Name |
-| :--- | :--- | :--- | :--- |
-| **Police Officer** | `PO-1042` | `police1042` | Inspector Rajesh Kumar |
-| **Police Officer** | `PO-2055` | `police2055` | Officer Suresh Verma |
-| **Lead Investigator** | `IN-8805` | `invest8805` | Senior Det. Anita Sharma |
-| **Forensic Specialist** | `FO-4091` | `forensic4091` | Dr. Vikramaditya Roy |
-| **Public Prosecutor (Lawyer)** | `LW-9120` | `lawyer9120` | Advocate Meera Deshmukh |
-
----
-
-## 💻 Local Development
-
-### 1. Prerequisites
-- Node.js 20+
-- Python 3.10+
-- MySQL Server (running locally on port 3306)
-
-### 2. Backend Setup
-```bash
-# Navigate to project root
-cd Secure-Documents-Management-System
-
-# Install Python requirements
-pip install -r server/requirements.txt
-
-# Configure environment variables
-cp server/.env.example server/.env
-# Edit server/.env with your MySQL credentials
-
-# Run FastAPI backend
-python server/main.py
+```json
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "options": {
+    "typeAware": true
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
 ```
 
-### 3. Frontend Setup
-```bash
-# Install Node dependencies
-npm install
-
-# Start Vite development server
-npm run dev
-```
-
-### 4. Build for Production
-```bash
-# Builds React frontend to dist/
-npm run build
-
-# Start production server
-uvicorn server.main:app --host 0.0.0.0 --port 5000
-```
+See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.

@@ -93,6 +93,7 @@ export interface UploadedCaseFile {
   parentFileId?: string | null;
   changeSummary?: string;
   isLatestVersion?: boolean;
+  fileText?: string;
 }
 
 export interface CaseRecord {

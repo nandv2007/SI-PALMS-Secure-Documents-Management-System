@@ -55,20 +55,20 @@ export const BlockchainProofModal: React.FC<BlockchainProofModalProps> = ({ file
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200" onClick={(e) => e.stopPropagation()}>
-      <div className="bg-white rounded-3xl max-w-2xl w-full border border-purple-200 shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      <div className="bg-white rounded-3xl max-w-2xl w-full border border-[#7CD5C7]/40 shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 text-white p-6 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-[#073B4C] via-[#118AB2] to-[#073B4C] text-white p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-purple-600/30 border border-purple-400/40 flex items-center justify-center text-purple-300 shrink-0">
+            <div className="w-11 h-11 rounded-2xl bg-[#7CD5C7]/20 border border-[#7CD5C7]/40 flex items-center justify-center text-[#7CD5C7] shrink-0">
               <Cpu className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-purple-900 text-purple-200 border border-purple-700">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#7CD5C7]/20 text-[#7CD5C7] border border-[#7CD5C7]/30">
                   ETHEREUM SMART CONTRACT LEDGER
                 </span>
-                <span className="text-[10px] font-mono text-cyan-300 font-bold">SOLICITOR EVIDENCE CERTIFICATE</span>
+                <span className="text-[10px] font-mono text-[#7CD5C7] font-bold">SOLICITOR EVIDENCE CERTIFICATE</span>
               </div>
               <h2 className="text-lg font-black tracking-wide text-white mt-0.5">On-Chain Cryptographic Proof</h2>
             </div>
@@ -76,7 +76,7 @@ export const BlockchainProofModal: React.FC<BlockchainProofModalProps> = ({ file
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-all cursor-pointer"
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-[#F2F2ED] hover:text-white transition-all cursor-pointer"
             title="Close modal"
           >
             <X className="w-5 h-5" />
@@ -84,11 +84,11 @@ export const BlockchainProofModal: React.FC<BlockchainProofModalProps> = ({ file
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-5 overflow-y-auto flex-1 bg-slate-50/50">
+        <div className="p-6 space-y-5 overflow-y-auto flex-1 bg-[#F2F2ED]/40">
           
           {loading ? (
             <div className="p-12 text-center space-y-3">
-              <div className="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto" />
+              <div className="w-10 h-10 border-4 border-[#118AB2] border-t-transparent rounded-full animate-spin mx-auto" />
               <p className="text-xs font-mono text-slate-600 font-bold">Querying Smart Contract State & Validating Block Receipts...</p>
             </div>
           ) : verification ? (
@@ -96,11 +96,11 @@ export const BlockchainProofModal: React.FC<BlockchainProofModalProps> = ({ file
               {/* Verification Status Banner */}
               <div className={`p-4 rounded-2xl border flex items-start gap-3 shadow-xs ${
                 verification.isValid
-                  ? 'bg-emerald-50 border-emerald-300 text-emerald-950'
+                  ? 'bg-[#7CD5C7]/20 border-[#7CD5C7] text-[#073B4C]'
                   : 'bg-red-50 border-red-300 text-red-950'
               }`}>
                 {verification.isValid ? (
-                  <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-6 h-6 text-[#118AB2] shrink-0 mt-0.5" />
                 ) : (
                   <AlertTriangle className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
                 )}
@@ -109,7 +109,7 @@ export const BlockchainProofModal: React.FC<BlockchainProofModalProps> = ({ file
                     <h3 className="text-xs font-black uppercase tracking-wider">
                       {verification.isValid ? 'Legal Proof Verified Immutable' : 'Tamper Alert Detected'}
                     </h3>
-                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 border border-emerald-300">
+                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-[#7CD5C7]/30 text-[#073B4C] border border-[#7CD5C7]/50">
                       ON-CHAIN STATUS: CONFIRMED
                     </span>
                   </div>
@@ -119,26 +119,26 @@ export const BlockchainProofModal: React.FC<BlockchainProofModalProps> = ({ file
 
               {/* Cryptographic Hashes Grid */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-purple-600" /> Fingerprint & Blockchain Verification
+                <h4 className="text-xs font-bold text-[#073B4C] uppercase tracking-wider flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-[#118AB2]" /> Fingerprint & Blockchain Verification
                 </h4>
 
                 <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-3 text-xs">
                   <div>
                     <span className="text-[10px] font-mono text-slate-400 font-bold uppercase block mb-1">Document File Name</span>
-                    <span className="font-bold text-slate-900">{verification.fileName || file.fileName}</span>
+                    <span className="font-bold text-[#073B4C]">{verification.fileName || file.fileName}</span>
                   </div>
 
                   <div>
                     <span className="text-[10px] font-mono text-slate-400 font-bold uppercase block mb-1">Document SHA-256 Digest (File State)</span>
-                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 font-mono text-[11px] text-purple-900 break-all select-all font-semibold">
+                    <div className="p-2.5 rounded-xl bg-[#F2F2ED] border border-[#7CD5C7]/30 font-mono text-[11px] text-[#073B4C] break-all select-all font-semibold">
                       {verification.currentHash}
                     </div>
                   </div>
 
                   <div>
                     <span className="text-[10px] font-mono text-slate-400 font-bold uppercase block mb-1">Anchored On-Chain Digest (Contract State)</span>
-                    <div className="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200 font-mono text-[11px] text-emerald-900 break-all select-all font-semibold">
+                    <div className="p-2.5 rounded-xl bg-[#7CD5C7]/20 border border-[#7CD5C7]/50 font-mono text-[11px] text-[#073B4C] break-all select-all font-semibold">
                       {verification.onChainHash}
                     </div>
                   </div>
@@ -147,40 +147,40 @@ export const BlockchainProofModal: React.FC<BlockchainProofModalProps> = ({ file
 
               {/* Blockchain Transaction Receipts */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                  <Link className="w-4 h-4 text-purple-600" /> Transaction & Block Metadata
+                <h4 className="text-xs font-bold text-[#073B4C] uppercase tracking-wider flex items-center gap-1.5">
+                  <Link className="w-4 h-4 text-[#118AB2]" /> Transaction & Block Metadata
                 </h4>
 
-                <div className="p-4 rounded-2xl bg-slate-900 text-slate-100 border border-slate-800 space-y-3 font-mono text-xs shadow-inner">
-                  <div className="flex flex-col sm:flex-row justify-between gap-1 pb-2 border-b border-slate-800">
-                    <span className="text-slate-400">Transaction Hash (TxHash):</span>
-                    <span className="text-cyan-400 font-bold truncate max-w-xs">{verification.txHash}</span>
+                <div className="p-4 rounded-2xl bg-[#073B4C] text-[#F2F2ED] border border-[#7CD5C7]/30 space-y-3 font-mono text-xs shadow-inner">
+                  <div className="flex flex-col sm:flex-row justify-between gap-1 pb-2 border-b border-[#7CD5C7]/20">
+                    <span className="text-slate-300">Transaction Hash (TxHash):</span>
+                    <span className="text-[#7CD5C7] font-bold truncate max-w-xs">{verification.txHash}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 pb-2 border-b border-slate-800">
+                  <div className="grid grid-cols-2 gap-4 pb-2 border-b border-[#7CD5C7]/20">
                     <div>
-                      <span className="text-slate-400 block text-[10px]">Block Number</span>
-                      <span className="text-emerald-400 font-bold">#{verification.blockNumber}</span>
+                      <span className="text-slate-300 block text-[10px]">Block Number</span>
+                      <span className="text-[#7CD5C7] font-bold">#{verification.blockNumber}</span>
                     </div>
                     <div>
-                      <span className="text-slate-400 block text-[10px]">Gas Consumption</span>
-                      <span className="text-purple-300 font-bold">{verification.gasUsed || 42190} Units</span>
+                      <span className="text-slate-300 block text-[10px]">Gas Consumption</span>
+                      <span className="text-[#7CD5C7] font-bold">{verification.gasUsed || 42190} Units</span>
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row justify-between gap-1 pb-2 border-b border-slate-800">
-                    <span className="text-slate-400">Smart Contract Address:</span>
-                    <span className="text-amber-300 font-bold truncate max-w-xs">{verification.contractAddress}</span>
+                  <div className="flex flex-col sm:flex-row justify-between gap-1 pb-2 border-b border-[#7CD5C7]/20">
+                    <span className="text-slate-300">Smart Contract Address:</span>
+                    <span className="text-[#7CD5C7] font-bold truncate max-w-xs">{verification.contractAddress}</span>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row justify-between gap-1 pb-2 border-b border-slate-800">
-                    <span className="text-slate-400">Signer Public Key (PKI):</span>
-                    <span className="text-indigo-300 font-bold truncate max-w-xs">{file.signerPublicKey || `0x047f8a9b1c2d3e4f...`}</span>
+                  <div className="flex flex-col sm:flex-row justify-between gap-1 pb-2 border-b border-[#7CD5C7]/20">
+                    <span className="text-slate-300">Signer Public Key (PKI):</span>
+                    <span className="text-[#7CD5C7] font-bold truncate max-w-xs">{file.signerPublicKey || `0x047f8a9b1c2d3e4f...`}</span>
                   </div>
 
                   <div className="flex flex-col sm:flex-row justify-between gap-1">
-                    <span className="text-slate-400">Signer Wallet Address:</span>
-                    <span className="text-slate-300 font-bold truncate max-w-xs">{verification.signerAddress}</span>
+                    <span className="text-slate-300">Signer Wallet Address:</span>
+                    <span className="text-[#F2F2ED] font-bold truncate max-w-xs">{verification.signerAddress}</span>
                   </div>
                 </div>
               </div>
@@ -193,14 +193,14 @@ export const BlockchainProofModal: React.FC<BlockchainProofModalProps> = ({ file
         <div className="p-4 bg-white border-t border-slate-200 flex items-center justify-between">
           <button
             onClick={() => window.print()}
-            className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all"
+            className="px-4 py-2.5 rounded-xl bg-[#F2F2ED] hover:bg-[#7CD5C7]/20 text-[#073B4C] text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all border border-[#7CD5C7]/30"
           >
             <Printer className="w-4 h-4" /> Print Court Certificate
           </button>
 
           <button
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl bg-purple-900 hover:bg-purple-800 text-white text-xs font-bold transition-all cursor-pointer shadow-sm flex items-center gap-1.5"
+            className="px-5 py-2.5 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white text-xs font-bold transition-all cursor-pointer shadow-sm flex items-center gap-1.5"
           >
             <span>Close Proof Inspector</span>
             <ExternalLink className="w-3.5 h-3.5 opacity-80" />

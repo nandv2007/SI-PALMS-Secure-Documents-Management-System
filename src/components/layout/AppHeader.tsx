@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { ROLE_CONFIGS } from '../../data/mockUsers';
 import { 
   Shield, 
   LogOut, 
@@ -12,7 +11,11 @@ import {
 } from 'lucide-react';
 import { PersonCaseSearchModal } from '../views/PersonCaseSearchModal';
 
-export const AppHeader: React.FC = () => {
+interface AppHeaderProps {
+  onNavigate?: (page: 'home' | 'login' | 'register' | 'dashboard') => void;
+}
+
+export const AppHeader: React.FC<AppHeaderProps> = ({ onNavigate }) => {
   const { user, activeCaseId, setActiveCaseId, openAssignedCase, logout } = useAuth();
   const [showPersonSearch, setShowPersonSearch] = useState(false);
 
@@ -29,8 +32,6 @@ export const AppHeader: React.FC = () => {
 
   if (!user) return null;
 
-  const roleCfg = ROLE_CONFIGS[user.prefix];
-
   return (
     <>
       <PersonCaseSearchModal 
@@ -38,45 +39,49 @@ export const AppHeader: React.FC = () => {
         onClose={() => setShowPersonSearch(false)} 
       />
 
-      <header className="bg-slate-950 text-white sticky top-0 z-30 border-b border-slate-800/80 px-4 md:px-6 py-2.5 shadow-lg shadow-black/20 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+      <header className="sticky top-0 z-30 px-4 md:px-8 py-3 bg-white border-b border-[#7CD5C7]/40 shadow-xs text-[#073B4C]">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           
-          {/* Brand & Platform Identifier */}
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 to-blue-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 border border-blue-400/30 shrink-0">
-              <Shield className="w-5 h-5" />
+          {/* Brand & Platform Identifier (Clicking returns to Home) */}
+          <button 
+            type="button"
+            onClick={() => onNavigate ? onNavigate('home') : null}
+            className="flex items-center gap-3 shrink-0 cursor-pointer text-left transition-transform active:scale-95 group"
+          >
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[#F2F2ED] border border-[#7CD5C7] text-[#118AB2] shadow-xs shrink-0 group-hover:scale-105 transition-all">
+              <Shield className="w-5 h-5 text-[#118AB2]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-base font-extrabold text-white tracking-tight">SI-PALMS</span>
-                <span className="text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800/60 uppercase">
+                <span className="text-lg font-black tracking-tight text-[#073B4C] group-hover:text-[#118AB2] transition-colors">SI-PALMS</span>
+                <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#118AB2]/10 text-[#118AB2] border border-[#118AB2]/30 uppercase">
                   SECURE VAULT
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 font-medium">Evidence Management & Chain of Custody</p>
+              <p className="text-[11px] font-medium text-slate-500">Evidence Management & Chain of Custody</p>
             </div>
-          </div>
+          </button>
 
           {/* Center Navigation & Active Case Selector */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 w-full md:w-auto">
+          <div className="flex flex-wrap items-center justify-center gap-3 w-full md:w-auto">
             
             {/* Global Search Button */}
             <button
               onClick={() => setShowPersonSearch(true)}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium border border-slate-800 hover:border-slate-700 transition-all cursor-pointer shadow-inner group"
+              className="flex items-center gap-2.5 px-4 py-2 rounded-2xl text-xs font-bold bg-[#F2F2ED] hover:bg-[#7CD5C7]/20 text-[#073B4C] border border-[#7CD5C7]/60 transition-all cursor-pointer shadow-2xs"
               title="Search entities, subjects, officer IDs or cases"
             >
-              <Search className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400 transition-colors" />
+              <Search className="w-4 h-4 text-[#118AB2]" />
               <span>Entity & Case Search</span>
-              <kbd className="hidden sm:inline-block text-[9px] font-mono bg-slate-950 text-slate-400 px-1.5 py-0.5 rounded border border-slate-800 ml-1">⌘K</kbd>
+              <kbd className="hidden sm:inline-block text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#118AB2] text-white border border-[#118AB2] ml-1">⌘K</kbd>
             </button>
 
             {/* Active Case Selector */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 shadow-inner">
-              <FolderKanban className="w-4 h-4 text-cyan-400 shrink-0" />
+            <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/60 shadow-2xs">
+              <FolderKanban className="w-4 h-4 text-[#118AB2] shrink-0" />
               
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-[10px] font-mono text-slate-400 font-semibold uppercase">Active Case:</span>
+                <span className="text-[10px] font-mono font-bold uppercase text-[#118AB2]">ACTIVE CASE:</span>
                 
                 {user.prefix !== 'FO' && user.assignedCaseIds.length > 0 ? (
                   <div className="relative flex items-center">
@@ -89,17 +94,17 @@ export const AppHeader: React.FC = () => {
                           setActiveCaseId('');
                         }
                       }}
-                      className="bg-slate-950 text-cyan-300 font-bold font-mono text-xs pl-2.5 pr-6 py-0.5 rounded-lg border border-slate-800 cursor-pointer focus:outline-none focus:border-cyan-500/50 hover:bg-slate-900 transition-colors appearance-none"
+                      className="text-xs font-bold font-mono pl-3 pr-7 py-1 rounded-xl bg-white text-[#073B4C] border border-[#7CD5C7]/60 cursor-pointer focus:outline-none focus:border-[#118AB2] appearance-none shadow-2xs"
                     >
                       <option value="" className="text-slate-400 font-normal">Select Case...</option>
                       {user.assignedCaseIds.map(cId => (
-                        <option key={cId} value={cId} className="bg-slate-900 text-cyan-200">{cId}</option>
+                        <option key={cId} value={cId} className="bg-white text-[#073B4C] font-bold">{cId}</option>
                       ))}
                     </select>
-                    <ChevronDown className="w-3 h-3 text-cyan-400 absolute right-1.5 pointer-events-none" />
+                    <ChevronDown className="w-3.5 h-3.5 text-[#118AB2] absolute right-2 pointer-events-none" />
                   </div>
                 ) : (
-                  <span className="font-bold text-cyan-300 font-mono tracking-wide">
+                  <span className="font-bold font-mono tracking-wide text-[#073B4C] bg-white px-2.5 py-1 rounded-xl border border-[#7CD5C7]/50">
                     {activeCaseId || 'None'}
                   </span>
                 )}
@@ -107,10 +112,10 @@ export const AppHeader: React.FC = () => {
                 {activeCaseId && (
                   <button
                     onClick={() => setActiveCaseId('')}
-                    className="ml-1 text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-0.5 rounded-md border border-slate-700 cursor-pointer transition-colors font-semibold flex items-center gap-1 shadow-2xs"
+                    className="ml-1 text-xs px-3 py-1 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white border border-[#118AB2] cursor-pointer transition-all font-bold flex items-center gap-1.5 shadow-2xs"
                     title="Return to case selection dashboard"
                   >
-                    <LayoutDashboard className="w-3 h-3 text-cyan-400" />
+                    <LayoutDashboard className="w-3.5 h-3.5" />
                     Dashboard
                   </button>
                 )}
@@ -120,30 +125,30 @@ export const AppHeader: React.FC = () => {
           </div>
 
           {/* Authenticated Officer Badge & Logout */}
-          <div className="flex items-center gap-2.5 shrink-0">
-            <div className="flex items-center gap-2.5 bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800">
-              <div className="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400 shrink-0">
-                <UserCheck className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-3 px-3.5 py-1.5 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/60 shadow-2xs">
+              <div className="w-8 h-8 rounded-xl bg-[#118AB2] text-white flex items-center justify-center shrink-0 shadow-2xs">
+                <UserCheck className="w-4 h-4 text-white" />
               </div>
               <div className="text-right leading-tight">
                 <div className="flex items-center justify-end gap-1.5">
-                  <span className="text-xs font-bold text-slate-100">{user.name}</span>
-                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border ${roleCfg.badgeColor}`}>
+                  <span className="text-xs font-bold text-[#073B4C]">{user.name}</span>
+                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#118AB2] text-white">
                     {user.id}
                   </span>
                 </div>
-                <div className="text-[10px] text-slate-400 font-mono mt-0.5">
-                  {user.rankTitle} • <span className="text-cyan-400 font-semibold">{user.station}</span>
+                <div className="text-[10px] font-mono mt-0.5 text-slate-500">
+                  {user.rankTitle} • <span className="font-bold text-[#073B4C]">{user.station}</span>
                 </div>
               </div>
             </div>
 
             <button
               onClick={logout}
-              className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-slate-900 hover:bg-rose-950/60 text-slate-400 hover:text-rose-300 border border-slate-800 hover:border-rose-800/80 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-medium"
+              className="p-2 sm:px-3.5 sm:py-2 rounded-2xl text-xs font-bold bg-[#F2F2ED] hover:bg-red-50 hover:text-red-700 hover:border-red-300 text-[#073B4C] border border-[#7CD5C7]/60 transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
               title="Logout session"
             >
-              <LogOut className="w-3.5 h-3.5 text-rose-400" />
+              <LogOut className="w-4 h-4 text-slate-600 group-hover:text-red-600" />
               <span className="hidden sm:inline">Logout</span>
             </button>
           </div>

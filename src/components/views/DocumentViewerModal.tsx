@@ -135,18 +135,18 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
         <div className="bg-white rounded-2xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
           
           {/* Modal Header */}
-          <div className="bg-slate-900 text-white p-5 flex items-center justify-between">
+          <div className="bg-[#073B4C] text-white p-5 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#118AB2] flex items-center justify-center text-white shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="overflow-hidden">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-cyan-400">{caseId}</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                  <span className="text-xs font-mono font-bold text-[#7CD5C7]">{caseId}</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-[#F2F2ED] border border-white/20">
                     {currentFile.category.replace('_', ' ')}
                   </span>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-600 text-white flex items-center gap-1">
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#118AB2] text-white flex items-center gap-1">
                     <GitCommit className="w-3 h-3" /> {versionTag}
                   </span>
                 </div>
@@ -156,7 +156,7 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
 
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-all cursor-pointer shrink-0"
+              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-[#F2F2ED] hover:text-white transition-all cursor-pointer shrink-0"
               title="Close document viewer"
             >
               <X className="w-5 h-5" />
@@ -164,9 +164,9 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
           </div>
 
           {/* Security Warning & Blockchain Badge */}
-          <div className="bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 border-b border-purple-800/80 px-6 py-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-white gap-2 shrink-0">
-            <div className="flex items-center gap-2 font-bold text-purple-200">
-              <Cpu className="w-4 h-4 text-purple-400 shrink-0" />
+          <div className="bg-gradient-to-r from-[#073B4C] via-[#118AB2] to-[#073B4C] border-b border-[#7CD5C7]/30 px-6 py-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-white gap-2 shrink-0">
+            <div className="flex items-center gap-2 font-bold text-[#7CD5C7]">
+              <Cpu className="w-4 h-4 text-[#7CD5C7] shrink-0" />
               <span>VERIFIED ON BLOCKCHAIN SMART CONTRACT LEDGER</span>
             </div>
             <button
@@ -175,25 +175,25 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
                 e.stopPropagation();
                 setShowBlockchainModal(true);
               }}
-              className="px-3 py-1 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-[11px] flex items-center gap-1.5 cursor-pointer transition-all shadow-sm shrink-0"
+              className="px-3 py-1 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white font-bold text-[11px] flex items-center gap-1.5 cursor-pointer transition-all shadow-sm shrink-0 border border-[#7CD5C7]/40"
             >
               <Link className="w-3.5 h-3.5" /> Inspect Blockchain Proof
             </button>
           </div>
 
           {/* Navigation Bar / Tabs */}
-          <div className="bg-slate-100 border-b border-slate-200 px-6 py-2 flex items-center justify-between text-xs font-bold gap-2 shrink-0">
+          <div className="bg-[#F2F2ED] border-b border-[#7CD5C7]/30 px-6 py-2 flex items-center justify-between text-xs font-bold gap-2 shrink-0">
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => setActiveTab('details')}
                 className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeTab === 'details'
-                    ? 'bg-white text-indigo-900 shadow-2xs border border-slate-200'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                    ? 'bg-white text-[#073B4C] shadow-2xs border border-[#7CD5C7]/40'
+                    : 'text-slate-600 hover:text-[#073B4C] hover:bg-[#7CD5C7]/20'
                 }`}
               >
-                <FileText className="w-3.5 h-3.5 text-blue-600" /> Proof & Content
+                <FileText className="w-3.5 h-3.5 text-[#118AB2]" /> Proof & Content
               </button>
 
               <button
@@ -201,11 +201,11 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
                 onClick={() => setActiveTab('versions')}
                 className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeTab === 'versions'
-                    ? 'bg-white text-indigo-900 shadow-2xs border border-slate-200'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                    ? 'bg-white text-[#073B4C] shadow-2xs border border-[#7CD5C7]/40'
+                    : 'text-slate-600 hover:text-[#073B4C] hover:bg-[#7CD5C7]/20'
                 }`}
               >
-                <Layers className="w-3.5 h-3.5 text-purple-600" /> Version Lineage
+                <Layers className="w-3.5 h-3.5 text-[#118AB2]" /> Version Lineage
               </button>
             </div>
 
@@ -215,8 +215,8 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
                 onClick={() => setActiveTab('new_version')}
                 className={`px-3.5 py-1.5 rounded-lg font-bold text-[11px] flex items-center gap-1.5 cursor-pointer transition-all ${
                   activeTab === 'new_version'
-                    ? 'bg-indigo-600 text-white shadow-2xs'
-                    : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
+                    ? 'bg-[#118AB2] text-white shadow-2xs'
+                    : 'bg-[#7CD5C7]/20 text-[#073B4C] hover:bg-[#7CD5C7]/40 border border-[#7CD5C7]/50'
                 }`}
               >
                 <PlusCircle className="w-3.5 h-3.5" /> Upload New Version
@@ -231,21 +231,21 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
             {activeTab === 'details' && (
               <>
                 {/* Officer Metadata Box */}
-                <div className="p-4.5 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs shadow-2xs">
+                <div className="p-4.5 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/30 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs shadow-2xs">
                   <div>
-                    <span className="text-[10px] font-mono uppercase text-slate-400 block mb-1 font-bold">UPLOADING OFFICER</span>
-                    <div className="font-bold text-slate-900 flex items-center gap-1.5 text-sm">
-                      <UserCheck className="w-4 h-4 text-blue-600 shrink-0" /> {currentFile.uploadedByOfficerName}
+                    <span className="text-[10px] font-mono uppercase text-slate-500 block mb-1 font-bold">UPLOADING OFFICER</span>
+                    <div className="font-bold text-[#073B4C] flex items-center gap-1.5 text-sm">
+                      <UserCheck className="w-4 h-4 text-[#118AB2] shrink-0" /> {currentFile.uploadedByOfficerName}
                     </div>
                     <span className="text-slate-500 font-mono text-[11px]">ID: {currentFile.uploadedByOfficerId} ({currentFile.uploadedByRole})</span>
                   </div>
 
                   <div>
-                    <span className="text-[10px] font-mono uppercase text-slate-400 block mb-1 font-bold">REVISION & INGEST TIMESTAMP</span>
-                    <div className="font-bold text-slate-900 flex items-center gap-1.5 text-sm">
-                      <Calendar className="w-4 h-4 text-blue-600 shrink-0" /> {currentFile.uploadTime}
+                    <span className="text-[10px] font-mono uppercase text-slate-500 block mb-1 font-bold">REVISION & INGEST TIMESTAMP</span>
+                    <div className="font-bold text-[#073B4C] flex items-center gap-1.5 text-sm">
+                      <Calendar className="w-4 h-4 text-[#118AB2] shrink-0" /> {currentFile.uploadTime}
                     </div>
-                    <span className="text-indigo-800 font-mono font-bold text-[11px]">Version: {versionTag} {currentFile.isLatestVersion ? '[LATEST]' : ''}</span>
+                    <span className="text-[#118AB2] font-mono font-bold text-[11px]">Version: {versionTag} {currentFile.isLatestVersion ? '[LATEST]' : ''}</span>
                   </div>
                 </div>
 
@@ -260,30 +260,30 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
                 {/* Document Content / Preview */}
                 {previewUrl && (
                   <div>
-                    <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Uploaded Document</h3>
+                    <h3 className="text-xs font-bold text-[#073B4C] uppercase tracking-wider mb-2">Uploaded Document</h3>
                     {isImage ? (
                       <img src={previewUrl} alt={currentFile.fileName} className="max-h-[380px] w-full object-contain rounded-xl border border-slate-200 bg-slate-50" />
                     ) : isPdf ? (
                       <iframe title={currentFile.fileName} src={previewUrl} className="h-[420px] w-full rounded-xl border border-slate-200 bg-slate-50" />
                     ) : (
-                      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600">This file type cannot be previewed directly in the secure viewer. Its case record and findings are available below.</div>
+                      <div className="p-4 rounded-xl bg-[#F2F2ED]/50 border border-slate-200 text-xs text-slate-600">This file type cannot be previewed directly in the secure viewer. Its case record and findings are available below.</div>
                     )}
                   </div>
                 )}
 
                 {/* Document Content / Incident Summary */}
                 <div>
-                  <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Document Findings & Case Report</h3>
-                  <div className="p-5 rounded-xl bg-slate-900 text-slate-100 text-xs leading-relaxed font-mono whitespace-pre-wrap border border-slate-800 shadow-inner">
+                  <h3 className="text-xs font-bold text-[#073B4C] uppercase tracking-wider mb-2">Document Findings & Case Report</h3>
+                  <div className="p-5 rounded-xl bg-[#073B4C] text-[#F2F2ED] text-xs leading-relaxed font-mono whitespace-pre-wrap border border-slate-800 shadow-inner">
                     {currentFile.description}
                   </div>
                 </div>
 
                 {/* SHA-256 Digital Fingerprint Seal & Blockchain Proof */}
-                <div className="p-4 rounded-xl bg-purple-50/80 border border-purple-200 text-purple-950 space-y-3">
+                <div className="p-4 rounded-xl bg-[#F2F2ED] border border-[#7CD5C7]/40 text-[#073B4C] space-y-3">
                   <div className="flex items-center justify-between text-xs font-bold">
-                    <span className="flex items-center gap-1.5 text-purple-900">
-                      <ShieldCheck className="w-4 h-4 text-purple-600" /> SHA-256 & Smart Contract Ledger Verification
+                    <span className="flex items-center gap-1.5 text-[#073B4C]">
+                      <ShieldCheck className="w-4 h-4 text-[#118AB2]" /> SHA-256 & Smart Contract Ledger Verification
                     </span>
                     <button
                       type="button"
@@ -291,26 +291,26 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
                         e.stopPropagation();
                         setShowBlockchainModal(true);
                       }}
-                      className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-lg bg-purple-900 text-purple-100 hover:bg-purple-800 transition-colors cursor-pointer shadow-2xs"
+                      className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-lg bg-[#118AB2] text-white hover:bg-[#073B4C] transition-colors cursor-pointer shadow-2xs"
                     >
                       VERIFY ON-CHAIN
                     </button>
                   </div>
                   
                   <div className="space-y-1.5">
-                    <div className="text-[10px] font-mono text-purple-800 font-bold uppercase">SHA-256 Hash Seal</div>
-                    <div className="p-2.5 rounded-lg bg-white border border-purple-200 font-mono text-[11px] text-purple-900 break-all select-all font-semibold">
+                    <div className="text-[10px] font-mono text-[#118AB2] font-bold uppercase">SHA-256 Hash Seal</div>
+                    <div className="p-2.5 rounded-lg bg-white border border-[#7CD5C7]/30 font-mono text-[11px] text-[#073B4C] break-all select-all font-semibold">
                       {currentFile.sha256Hash}
                     </div>
                   </div>
 
                   {currentFile.txHash && (
                     <div className="space-y-1.5">
-                      <div className="text-[10px] font-mono text-purple-800 font-bold uppercase flex justify-between">
+                      <div className="text-[10px] font-mono text-[#118AB2] font-bold uppercase flex justify-between">
                         <span>Ethereum Transaction Hash (TxHash)</span>
-                        <span className="text-emerald-700">Block #{currentFile.blockNumber || 10429}</span>
+                        <span className="text-[#118AB2]">Block #{currentFile.blockNumber || 10429}</span>
                       </div>
-                      <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 font-mono text-[11px] text-cyan-300 break-all select-all font-semibold">
+                      <div className="p-2.5 rounded-lg bg-[#073B4C] border border-slate-800 font-mono text-[11px] text-[#7CD5C7] break-all select-all font-semibold">
                         {currentFile.txHash}
                       </div>
                     </div>
@@ -318,30 +318,30 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
                 </div>
 
                 {/* PKI Digital Signature Box */}
-                <div className="p-4 rounded-xl bg-indigo-50/90 border border-indigo-200 text-indigo-950 space-y-2.5">
+                <div className="p-4 rounded-xl bg-[#7CD5C7]/20 border border-[#7CD5C7]/50 text-[#073B4C] space-y-2.5">
                   <div className="flex items-center justify-between text-xs font-bold">
-                    <span className="flex items-center gap-1.5 text-indigo-900">
+                    <span className="flex items-center gap-1.5 text-[#073B4C]">
                       <span className="text-base">✍️</span> PKI Digital Signature & Non-Repudiation Proof
                     </span>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3 text-emerald-600" /> SIGNATURE VALID
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#7CD5C7]/30 text-[#073B4C] border border-[#7CD5C7]/50 flex items-center gap-1">
+                      <ShieldCheck className="w-3 h-3 text-[#118AB2]" /> SIGNATURE VALID
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-xs text-indigo-900 font-mono">
+                  <div className="space-y-1 text-xs text-[#073B4C] font-mono">
                     <div className="flex justify-between">
                       <span>Signer Officer:</span>
-                      <strong className="text-indigo-950">{currentFile.uploadedByOfficerName} ({currentFile.uploadedByOfficerId})</strong>
+                      <strong className="text-[#073B4C]">{currentFile.uploadedByOfficerName} ({currentFile.uploadedByOfficerId})</strong>
                     </div>
                     <div className="flex justify-between">
                       <span>Algorithm:</span>
-                      <strong className="text-indigo-900">ECDSA P-256 (W3C Web Crypto API)</strong>
+                      <strong className="text-[#118AB2]">ECDSA P-256 (W3C Web Crypto API)</strong>
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <div className="text-[10px] font-mono text-indigo-800 font-bold uppercase">Digital Signature Hex String</div>
-                    <div className="p-2.5 rounded-lg bg-white border border-indigo-200 font-mono text-[10px] text-indigo-900 break-all select-all font-semibold">
+                    <div className="text-[10px] font-mono text-[#118AB2] font-bold uppercase">Digital Signature Hex String</div>
+                    <div className="p-2.5 rounded-lg bg-white border border-[#7CD5C7]/40 font-mono text-[10px] text-[#073B4C] break-all select-all font-semibold">
                       {currentFile.digitalSignature || `0x304402207a9b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a02201b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a`}
                     </div>
                   </div>
@@ -364,37 +364,37 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
             {/* TAB 3: UPLOAD NEW VERSION FORM */}
             {activeTab === 'new_version' && canUploadVersion && (
               <form onSubmit={handleUploadNewVersion} className="space-y-5">
-                <div className="p-4 rounded-xl bg-indigo-50 border border-indigo-200 space-y-2">
-                  <div className="flex items-center gap-2 text-indigo-900 font-bold text-sm">
-                    <GitCommit className="w-4 h-4 text-indigo-600" />
+                <div className="p-4 rounded-xl bg-[#F2F2ED] border border-[#7CD5C7]/40 space-y-2">
+                  <div className="flex items-center gap-2 text-[#073B4C] font-bold text-sm">
+                    <GitCommit className="w-4 h-4 text-[#118AB2]" />
                     <span>Creating Next Version for: {currentFile.fileName}</span>
                   </div>
-                  <p className="text-xs text-indigo-700 leading-relaxed">
+                  <p className="text-xs text-slate-600 leading-relaxed">
                     Uploading a new version will preserve all historical SHA-256 seals & blockchain proofs while establishing a transparent cryptographic audit lineage from {versionTag}.
                   </p>
                 </div>
 
                 {uploadSuccess && (
-                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-bold text-xs flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <div className="p-3 rounded-xl bg-[#7CD5C7]/20 border border-[#7CD5C7] text-[#073B4C] font-bold text-xs flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#118AB2] shrink-0" />
                     <span>New version successfully created, signed, and anchored on-chain!</span>
                   </div>
                 )}
 
                 {/* Release Type: Minor vs Major */}
                 <div className="space-y-2">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Version Increment Type</label>
+                  <label className="block text-xs font-bold text-[#073B4C] uppercase tracking-wider">Version Increment Type</label>
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <button
                       type="button"
                       onClick={() => setIsMajorVersion(false)}
                       className={`p-3 rounded-xl border text-left cursor-pointer transition-all ${
                         !isMajorVersion
-                          ? 'bg-indigo-50 border-indigo-400 ring-2 ring-indigo-200'
-                          : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                          ? 'bg-[#F2F2ED] border-[#118AB2] ring-2 ring-[#118AB2]/20'
+                          : 'bg-white border-slate-200 hover:border-slate-300'
                       }`}
                     >
-                      <strong className="block text-slate-900 font-bold">Minor Revision (v1.1, v1.2)</strong>
+                      <strong className="block text-[#073B4C] font-bold">Minor Revision (v1.1, v1.2)</strong>
                       <span className="text-[11px] text-slate-500">For minor corrections, addendums, or routine updates.</span>
                     </button>
 
@@ -403,11 +403,11 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
                       onClick={() => setIsMajorVersion(true)}
                       className={`p-3 rounded-xl border text-left cursor-pointer transition-all ${
                         isMajorVersion
-                          ? 'bg-indigo-50 border-indigo-400 ring-2 ring-indigo-200'
-                          : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                          ? 'bg-[#F2F2ED] border-[#118AB2] ring-2 ring-[#118AB2]/20'
+                          : 'bg-white border-slate-200 hover:border-slate-300'
                       }`}
                     >
-                      <strong className="block text-slate-900 font-bold">Major Release (v2.0, v3.0)</strong>
+                      <strong className="block text-[#073B4C] font-bold">Major Release (v2.0, v3.0)</strong>
                       <span className="text-[11px] text-slate-500">For comprehensive rewrites or major investigative findings.</span>
                     </button>
                   </div>
@@ -415,14 +415,14 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
 
                 {/* File Upload */}
                 <div className="space-y-2">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Select Updated Document File</label>
+                  <label className="block text-xs font-bold text-[#073B4C] uppercase tracking-wider">Select Updated Document File</label>
                   <input
                     type="file"
                     onChange={(e) => setNewFileObj(e.target.files?.[0] || null)}
-                    className="block w-full text-xs text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white file:bg-slate-800 hover:file:bg-slate-900 cursor-pointer border border-slate-200 rounded-xl p-1"
+                    className="block w-full text-xs text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white file:bg-[#073B4C] hover:file:bg-[#118AB2] cursor-pointer border border-slate-200 rounded-xl p-1"
                   />
                   {newFileObj && (
-                    <span className="text-xs text-emerald-700 font-bold flex items-center gap-1">
+                    <span className="text-xs text-[#118AB2] font-bold flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Ready: {newFileObj.name} ({(newFileObj.size / 1024).toFixed(1)} KB)
                     </span>
                   )}
@@ -430,33 +430,33 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
 
                 {/* Change Summary */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Revision Notes / Change Summary <span className="text-rose-500">*</span></label>
+                  <label className="block text-xs font-bold text-[#073B4C] uppercase tracking-wider">Revision Notes / Change Summary <span className="text-rose-500">*</span></label>
                   <input
                     type="text"
                     required
                     value={changeSummary}
                     onChange={(e) => setChangeSummary(e.target.value)}
                     placeholder="e.g. Added ballistic lab verification report addendum..."
-                    className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-900 focus:border-indigo-600 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-900 focus:border-[#118AB2] focus:outline-none"
                   />
                 </div>
 
                 {/* Updated Description */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Updated Case Findings / Notes</label>
+                  <label className="block text-xs font-bold text-[#073B4C] uppercase tracking-wider">Updated Case Findings / Notes</label>
                   <textarea
                     rows={3}
                     value={newDescription}
                     onChange={(e) => setNewDescription(e.target.value)}
                     placeholder="Provide updated investigation findings or notes..."
-                    className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-900 focus:border-indigo-600 focus:outline-none font-mono"
+                    className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-900 focus:border-[#118AB2] focus:outline-none font-mono"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isUploading}
-                  className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer disabled:opacity-50"
+                  className="w-full py-3 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer disabled:opacity-50"
                 >
                   <Upload className="w-4 h-4" /> {isUploading ? 'Sealing & Anchoring New Version...' : 'Seal & Anchor New Version'}
                 </button>
@@ -466,14 +466,14 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({ file: 
           </div>
 
           {/* Modal Footer */}
-          <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
-            <div className="text-xs text-slate-500 flex items-center gap-1.5">
-              <Lock className="w-3.5 h-3.5 text-slate-400" /> Version control ensures non-repudiation & tamper-evident record keeping.
+          <div className="p-4 bg-[#F2F2ED] border-t border-slate-200 flex items-center justify-between">
+            <div className="text-xs text-slate-600 flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-[#118AB2]" /> Version control ensures non-repudiation & tamper-evident record keeping.
             </div>
 
             <button
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all cursor-pointer shadow-sm"
+              className="px-5 py-2.5 rounded-xl bg-[#073B4C] hover:bg-[#118AB2] text-white text-xs font-bold transition-all cursor-pointer shadow-sm"
             >
               Close Document
             </button>

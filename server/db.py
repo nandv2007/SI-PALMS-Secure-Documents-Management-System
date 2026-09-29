@@ -4,32 +4,18 @@ import pymysql.cursors
 from dotenv import load_dotenv
 import random
 import time
-from urllib.parse import urlparse
 
 load_dotenv()
 
-# Parse DATABASE_URL / MYSQL_URL if present, otherwise fallback to discrete variables
-database_url = os.getenv("DATABASE_URL") or os.getenv("MYSQL_URL")
-if database_url:
-    url = urlparse(database_url)
-    MYSQL_HOST = url.hostname or "localhost"
-    MYSQL_PORT = url.port or 3306
-    MYSQL_USER = url.username or "root"
-    MYSQL_PASSWORD = url.password or ""
-    MYSQL_DATABASE = url.path.lstrip("/") or "sipalms_db"
-else:
-    MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
-    MYSQL_PORT = int(os.getenv("MYSQL_PORT", 3306))
-    MYSQL_USER = os.getenv("MYSQL_USER", "root")
-    MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
-    MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "sipalms_db")
-
-MYSQL_SSL_MODE = os.getenv("MYSQL_SSL_MODE", "false").lower() in ("true", "1", "yes", "require", "required")
+MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
+MYSQL_PORT = int(os.getenv("MYSQL_PORT", 3306))
+MYSQL_USER = os.getenv("MYSQL_USER", "root")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "sipalms_db")
 
 
 def get_raw_connection(db_name=None):
-    """Creates a PyMySQL connection with dictionary cursor and SSL support."""
-    ssl_config = {"ssl_mode": "REQUIRED"} if MYSQL_SSL_MODE else None
+    """Creates a PyMySQL connection with dictionary cursor."""
     return pymysql.connect(
         host=MYSQL_HOST,
         port=MYSQL_PORT,
@@ -38,8 +24,7 @@ def get_raw_connection(db_name=None):
         database=db_name,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True,
-        charset='utf8mb4',
-        ssl=ssl_config
+        charset='utf8mb4'
     )
 
 
@@ -72,18 +57,15 @@ db = Database()
 
 def init_database():
     try:
-        # 1. Try to create Database if missing (standard for root/local; cloud DBs have pre-created db)
+        # 1. Create Database if missing
+        root_conn = get_raw_connection(None)
         try:
-            root_conn = get_raw_connection(None)
-            try:
-                with root_conn.cursor() as cursor:
-                    cursor.execute(f"CREATE DATABASE IF NOT EXISTS `{MYSQL_DATABASE}`;")
-            finally:
-                root_conn.close()
-        except Exception as e:
-            print(f"[DB INFO] Cloud MySQL detected (skipping CREATE DATABASE): {e}")
+            with root_conn.cursor() as cursor:
+                cursor.execute(f"CREATE DATABASE IF NOT EXISTS `{MYSQL_DATABASE}`;")
+        finally:
+            root_conn.close()
 
-        # 2. Connect to MySQL Database and initialize tables
+        # 2. Connect to MySQL Database
         conn = db.get_connection()
         try:
             with conn.cursor() as cursor:
@@ -157,7 +139,8 @@ def init_database():
                         versionNumber DECIMAL(3,1) DEFAULT 1.0,
                         parentFileId VARCHAR(50) DEFAULT NULL,
                         changeSummary TEXT DEFAULT NULL,
-                        isLatestVersion BOOLEAN DEFAULT TRUE
+                        isLatestVersion BOOLEAN DEFAULT TRUE,
+                        fileText LONGTEXT DEFAULT NULL
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
                 """)
 
@@ -172,6 +155,7 @@ def init_database():
                     'ALTER TABLE uploaded_files ADD COLUMN parentFileId VARCHAR(50) DEFAULT NULL;',
                     'ALTER TABLE uploaded_files ADD COLUMN changeSummary TEXT DEFAULT NULL;',
                     'ALTER TABLE uploaded_files ADD COLUMN isLatestVersion BOOLEAN DEFAULT TRUE;',
+                    'ALTER TABLE uploaded_files ADD COLUMN fileText LONGTEXT DEFAULT NULL;',
                     'ALTER TABLE audit_logs ADD COLUMN case_id VARCHAR(50) DEFAULT NULL;'
                 ]
                 for alter_sql in alter_queries:
@@ -227,9 +211,71 @@ def init_database():
             conn.close()
 
         seed_initial_data()
+        index_existing_uploaded_files()
     except Exception as error:
         print("[DB ERROR] MySQL initialization failed:", error)
         raise error
+
+
+def extract_text_from_storage(storage_path: str) -> str:
+    if not storage_path:
+        return ""
+    uploads_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "uploads"))
+    full_path = os.path.join(uploads_dir, storage_path)
+    if not os.path.exists(full_path):
+        return ""
+
+    ext = os.path.splitext(storage_path)[1].lower()
+    text_content = []
+
+    if ext == ".pdf":
+        try:
+            import fitz
+            doc = fitz.open(full_path)
+            for page in doc:
+                text_content.append(page.get_text())
+            return "\n".join(text_content)
+        except Exception as e:
+            print("[PDF EXTRACTION ERROR]", e)
+
+    elif ext == ".docx":
+        try:
+            import zipfile
+            import xml.etree.ElementTree as ET
+            with zipfile.ZipFile(full_path) as z:
+                xml_content = z.read('word/document.xml')
+                tree = ET.fromstring(xml_content)
+                texts = [node.text for node in tree.iter() if node.tag.endswith('}t') and node.text]
+                return " ".join(texts)
+        except Exception as e:
+            print("[DOCX EXTRACTION ERROR]", e)
+
+    elif ext in (".txt", ".csv", ".json", ".log", ".md"):
+        try:
+            with open(full_path, "r", encoding="utf-8", errors="ignore") as f:
+                return f.read()
+        except Exception as e:
+            print("[TXT EXTRACTION ERROR]", e)
+
+    return ""
+
+
+def index_existing_uploaded_files():
+    try:
+        rows = db.query("SELECT fileId, storagePath FROM uploaded_files WHERE fileText IS NULL OR fileText = ''")
+        if not rows:
+            return
+        print(f"[DB INDEXER] Indexing text content for {len(rows)} uploaded document files...")
+        for row in rows:
+            f_id = row["fileId"]
+            path = row.get("storagePath")
+            if path:
+                extracted = extract_text_from_storage(path)
+                if extracted:
+                    db.execute("UPDATE uploaded_files SET fileText = %s WHERE fileId = %s", (extracted, f_id))
+        print("[DB INDEXER] Document text extraction and indexing complete.")
+    except Exception as err:
+        print("[DB INDEXER ERROR]", err)
 
 
 def seed_initial_data():

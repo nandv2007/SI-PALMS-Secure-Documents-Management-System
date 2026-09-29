@@ -78,6 +78,16 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
     return true;
   });
 
+  useEffect(() => {
+    if (filteredPersons.length > 0) {
+      if (!selectedPerson || !filteredPersons.some(p => p.id === selectedPerson.id)) {
+        setSelectedPerson(filteredPersons[0]);
+      }
+    } else {
+      setSelectedPerson(null);
+    }
+  }, [filterCategory, persons]);
+
   const handleOpenCaseWorkspace = async (caseId: string) => {
     if (onSelectCase) {
       onSelectCase(caseId);
@@ -90,35 +100,35 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="bg-white rounded-3xl w-full max-w-5xl border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#073B4C]/80 backdrop-blur-sm p-4 overflow-y-auto">
+      <div className="bg-white rounded-3xl w-full max-w-5xl border border-[#7CD5C7]/40 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         
         {/* Header Banner */}
-        <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-purple-950 text-white p-6 border-b border-slate-800 flex items-start justify-between shrink-0">
+        <div className="bg-gradient-to-r from-[#073B4C] via-[#118AB2] to-[#073B4C] text-white p-6 border-b border-[#7CD5C7]/30 flex items-start justify-between shrink-0">
           <div className="space-y-1">
             <div className="flex items-center gap-2.5">
-              <span className="px-2.5 py-0.5 rounded-full bg-blue-600/30 text-cyan-300 border border-blue-500/40 text-[10px] font-mono font-bold flex items-center gap-1.5 uppercase tracking-wider">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#7CD5C7]/20 text-[#7CD5C7] border border-[#7CD5C7]/40 text-[10px] font-mono font-bold flex items-center gap-1.5 uppercase tracking-wider">
                 Entity & Case Search
               </span>
             </div>
             <h2 className="text-xl font-black tracking-wide flex items-center gap-2">
               Search case records
             </h2>
-            <p className="text-xs text-slate-300 max-w-2xl font-sans">
+            <p className="text-xs text-[#F2F2ED]/80 max-w-2xl font-sans">
               Search authorized personnel by name or ID, or case records by case number and evidence text.
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-2xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors cursor-pointer"
+            className="p-2 rounded-2xl bg-white/10 hover:bg-white/20 text-[#F2F2ED] hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Search Bar & Filters */}
-        <div className="p-6 bg-slate-50 border-b border-slate-200 space-y-4 shrink-0">
+        <div className="p-6 bg-[#F2F2ED] border-b border-[#7CD5C7]/30 space-y-4 shrink-0">
           <form onSubmit={handleSearchSubmit} className="flex gap-3">
             <div className="relative flex-1">
               <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
@@ -127,7 +137,7 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Name, officer ID, case number, or evidence keyword"
-                className="w-full pl-11 pr-10 py-3 rounded-2xl bg-white border border-slate-300 text-slate-900 font-mono text-xs focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 shadow-2xs"
+                className="w-full pl-11 pr-10 py-3 rounded-2xl bg-white border border-[#7CD5C7]/50 text-slate-900 font-mono text-xs focus:outline-none focus:border-[#118AB2] focus:ring-2 focus:ring-[#118AB2]/20 shadow-2xs"
               />
               {query && (
                 <button
@@ -142,7 +152,7 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold font-mono flex items-center gap-2 cursor-pointer shadow-md transition-all shrink-0"
+              className="px-6 py-3 rounded-2xl bg-[#118AB2] hover:bg-[#073B4C] text-white text-xs font-bold font-mono flex items-center gap-2 cursor-pointer shadow-md transition-all shrink-0"
             >
               <Search className="w-4 h-4" /> Search
             </button>
@@ -151,7 +161,7 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
           {/* Quick Filters */}
           <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] font-bold text-slate-500 font-mono uppercase">Filter Role:</span>
+              <span className="text-[11px] font-bold text-[#073B4C] font-mono uppercase">Filter Role:</span>
               {[
                 { id: 'ALL', label: 'All results' },
                 { id: 'OFFICIAL', label: 'Personnel' },
@@ -162,8 +172,8 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
                   onClick={() => setFilterCategory(f.id)}
                   className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
                     filterCategory === f.id
-                      ? 'bg-slate-900 text-white shadow-2xs'
-                      : 'bg-white text-slate-600 hover:bg-slate-200 border border-slate-200'
+                      ? 'bg-[#118AB2] text-white shadow-2xs'
+                      : 'bg-white text-slate-700 hover:bg-[#7CD5C7]/20 border border-[#7CD5C7]/40'
                   }`}
                 >
                   {f.label}
@@ -178,10 +188,10 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
         <div className="flex-1 overflow-hidden flex flex-col md:flex-row min-h-[420px]">
           
           {/* Left Panel: Person Cards List */}
-          <div className="w-full md:w-80 border-r border-slate-200 bg-white p-4 overflow-y-auto space-y-3 shrink-0">
+          <div className="w-full md:w-80 border-r border-[#7CD5C7]/30 bg-white p-4 overflow-y-auto space-y-3 shrink-0">
             <div className="flex items-center justify-between text-[11px] font-mono font-bold text-slate-500 uppercase px-1">
               <span>PERSONS FOUND ({filteredPersons.length})</span>
-              {loading && <span className="text-blue-600 animate-pulse">Searching...</span>}
+              {loading && <span className="text-[#118AB2] animate-pulse">Searching...</span>}
             </div>
 
             {error && <p className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-[11px] text-rose-800">{error}</p>}
@@ -198,14 +208,14 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
                     onClick={() => setSelectedPerson(person)}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer space-y-2 ${
                       isSelected
-                        ? 'bg-blue-50/70 border-blue-500 shadow-sm ring-2 ring-blue-500/20'
-                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                        ? 'bg-[#F2F2ED] border-[#118AB2] shadow-sm ring-2 ring-[#118AB2]/20'
+                        : 'bg-white border-slate-200 hover:bg-[#F2F2ED]/50'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2 min-w-0">
                         <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 ${
-                          isOfficer ? 'bg-blue-600 text-white' : isSuspect ? 'bg-amber-600 text-white' : isWitness ? 'bg-emerald-600 text-white' : 'bg-purple-600 text-white'
+                          isOfficer ? 'bg-[#118AB2] text-white' : isSuspect ? 'bg-amber-600 text-white' : isWitness ? 'bg-emerald-600 text-white' : 'bg-[#073B4C] text-[#7CD5C7]'
                         }`}>
                           <User className="w-4 h-4" />
                         </div>
@@ -217,10 +227,10 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
 
                       <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full shrink-0 border ${
                         isOfficer
-                          ? 'bg-blue-100 text-blue-800 border-blue-200'
+                          ? 'bg-[#118AB2]/10 text-[#118AB2] border-[#118AB2]/30'
                           : isSuspect
                           ? 'bg-amber-100 text-amber-900 border-amber-300'
-                          : 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                          : 'bg-[#7CD5C7]/20 text-[#073B4C] border-[#7CD5C7]/50'
                       }`}>
                         {person.cases.length} CASE{person.cases.length === 1 ? '' : 'S'}
                       </span>
@@ -228,7 +238,7 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
 
                     <div className="text-[10px] font-mono text-slate-500 flex items-center justify-between pt-1 border-t border-slate-100">
                       <span>ID: {person.id}</span>
-                      <span className="font-bold text-slate-700">{person.badgeNumber}</span>
+                      <span className="font-bold text-[#073B4C]">{person.badgeNumber}</span>
                     </div>
                   </div>
                 );
@@ -242,27 +252,27 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
           </div>
 
           {/* Right Panel: Case Involvement Intelligence Details */}
-          <div className="flex-1 bg-slate-50/50 p-6 overflow-y-auto space-y-6">
+          <div className="flex-1 bg-[#F2F2ED]/40 p-6 overflow-y-auto space-y-6">
             {selectedPerson ? (
               <div className="space-y-6">
                 
                 {/* Person Profile Banner */}
-                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                <div className="bg-white rounded-3xl p-6 border border-[#7CD5C7]/30 shadow-sm space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
                     <div className="flex items-center gap-3">
                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-lg text-white shadow-md ${
                         selectedPerson.category === 'Official Personnel'
-                          ? 'bg-blue-600'
+                          ? 'bg-[#118AB2]'
                           : selectedPerson.category.toLowerCase().includes('suspect')
                           ? 'bg-amber-600'
-                          : 'bg-emerald-600'
+                          : 'bg-[#073B4C]'
                       }`}>
                         <User className="w-6 h-6" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="text-lg font-black text-slate-900">{selectedPerson.name}</h3>
-                          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                          <h3 className="text-lg font-black text-[#073B4C]">{selectedPerson.name}</h3>
+                          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#F2F2ED] text-[#073B4C] border border-[#7CD5C7]/30">
                             {selectedPerson.id}
                           </span>
                         </div>
@@ -271,30 +281,30 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2 text-right">
-                      <div className="px-3 py-1.5 rounded-xl bg-purple-50 border border-purple-200 text-right">
-                        <div className="text-[9px] font-mono uppercase text-purple-700 font-bold">Category</div>
-                        <div className="text-xs font-bold text-purple-950 font-mono">{selectedPerson.category}</div>
+                      <div className="px-3 py-1.5 rounded-xl bg-[#F2F2ED] border border-[#7CD5C7]/40 text-right">
+                        <div className="text-[9px] font-mono uppercase text-[#118AB2] font-bold">Category</div>
+                        <div className="text-xs font-bold text-[#073B4C] font-mono">{selectedPerson.category}</div>
                       </div>
-                      <div className="px-3 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-right">
-                        <div className="text-[9px] font-mono uppercase text-blue-700 font-bold">Total Linked Cases</div>
-                        <div className="text-xs font-bold text-blue-950 font-mono">{selectedPerson.totalCasesInvolved} Case(s)</div>
+                      <div className="px-3 py-1.5 rounded-xl bg-[#7CD5C7]/20 border border-[#7CD5C7]/50 text-right">
+                        <div className="text-[9px] font-mono uppercase text-[#118AB2] font-bold">Total Linked Cases</div>
+                        <div className="text-xs font-bold text-[#073B4C] font-mono">{selectedPerson.totalCasesInvolved} Case(s)</div>
                       </div>
                     </div>
                   </div>
 
                   {/* Profile Metadata Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs font-mono">
-                    <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <div className="bg-[#F2F2ED]/50 p-3 rounded-2xl border border-[#7CD5C7]/20">
                       <span className="text-[10px] text-slate-400 uppercase font-bold block">Department / Org</span>
-                      <span className="font-bold text-slate-800">{selectedPerson.department}</span>
+                      <span className="font-bold text-[#073B4C]">{selectedPerson.department}</span>
                     </div>
-                    <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <div className="bg-[#F2F2ED]/50 p-3 rounded-2xl border border-[#7CD5C7]/20">
                       <span className="text-[10px] text-slate-400 uppercase font-bold block">Jurisdiction / Station</span>
-                      <span className="font-bold text-slate-800">{selectedPerson.station}</span>
+                      <span className="font-bold text-[#073B4C]">{selectedPerson.station}</span>
                     </div>
-                    <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <div className="bg-[#F2F2ED]/50 p-3 rounded-2xl border border-[#7CD5C7]/20">
                       <span className="text-[10px] text-slate-400 uppercase font-bold block">Badge / Reference ID</span>
-                      <span className="font-bold text-slate-800">{selectedPerson.badgeNumber}</span>
+                      <span className="font-bold text-[#073B4C]">{selectedPerson.badgeNumber}</span>
                     </div>
                   </div>
                 </div>
@@ -302,8 +312,8 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
                 {/* Cases Involved Section */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                      <FolderKanban className="w-4 h-4 text-blue-600" />
+                    <h4 className="text-sm font-bold text-[#073B4C] flex items-center gap-2">
+                      <FolderKanban className="w-4 h-4 text-[#118AB2]" />
                       Cases Involved In ({selectedPerson.cases.length})
                     </h4>
                     <span className="text-[11px] font-mono text-slate-500">
@@ -316,17 +326,17 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
                       {selectedPerson.cases.map((c, idx) => (
                         <div
                           key={c.caseId + idx}
-                          className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md transition-all space-y-4 group"
+                          className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-[#118AB2] transition-all space-y-4 group"
                         >
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                             <div>
                               <div className="flex items-center gap-2">
-                                <span className="text-xs font-mono font-bold text-blue-700">{c.caseId}</span>
-                                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                                <span className="text-xs font-mono font-bold text-[#118AB2]">{c.caseId}</span>
+                                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#F2F2ED] text-[#073B4C] border border-[#7CD5C7]/30">
                                   {c.status.replace('_', ' ')}
                                 </span>
                               </div>
-                              <h5 className="text-base font-bold text-slate-900 group-hover:text-blue-700 transition-colors mt-0.5">
+                              <h5 className="text-base font-bold text-slate-900 group-hover:text-[#118AB2] transition-colors mt-0.5">
                                 {c.title}
                               </h5>
                               <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
@@ -336,16 +346,16 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
 
                             <button
                               onClick={() => handleOpenCaseWorkspace(c.caseId)}
-                              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer shadow-sm shrink-0"
+                              className="px-4 py-2 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white font-bold text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer shadow-sm shrink-0 transition-all"
                             >
                               Open Case Workspace <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
 
                           {/* Specific Person Role in this Case */}
-                          <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs space-y-1">
-                            <div className="text-[10px] font-mono font-bold uppercase text-amber-800 flex items-center gap-1.5">
-                              <BadgeCheck className="w-4 h-4 text-amber-600" /> Role in Case: {c.roleInCase}
+                          <div className="p-3.5 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/50 text-xs space-y-1">
+                            <div className="text-[10px] font-mono font-bold uppercase text-[#118AB2] flex items-center gap-1.5">
+                              <BadgeCheck className="w-4 h-4 text-[#118AB2]" /> Role in Case: {c.roleInCase}
                             </div>
                             {c.matchReason && (
                               <p className="text-slate-700 font-sans text-xs leading-relaxed pl-5">
@@ -358,13 +368,13 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
                           {c.matchingFiles && c.matchingFiles.length > 0 && (
                             <div className="space-y-2 pt-1">
                               <div className="text-[11px] font-mono font-bold text-slate-500 uppercase flex items-center gap-1.5">
-                                <FileText className="w-3.5 h-3.5 text-blue-600" /> Matching Case Evidence ({c.matchingFiles.length})
+                                <FileText className="w-3.5 h-3.5 text-[#118AB2]" /> Matching Case Evidence ({c.matchingFiles.length})
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 {c.matchingFiles.map((file) => (
-                                  <div key={file.fileId} className="p-3 rounded-2xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
-                                    <div className="font-bold text-slate-900 truncate flex items-center gap-1">
-                                      <FileText className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                                  <div key={file.fileId} className="p-3 rounded-2xl bg-[#F2F2ED]/50 border border-[#7CD5C7]/30 space-y-1 text-xs">
+                                    <div className="font-bold text-[#073B4C] truncate flex items-center gap-1">
+                                      <FileText className="w-3.5 h-3.5 text-[#118AB2] shrink-0" />
                                       <span className="truncate">{file.fileName}</span>
                                     </div>
                                     <p className="text-[10px] font-mono text-slate-500">Category: {file.category}</p>
@@ -395,14 +405,14 @@ export const PersonCaseSearchModal: React.FC<PersonCaseSearchModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-900 text-slate-400 px-6 py-3.5 border-t border-slate-800 flex items-center justify-between text-xs font-mono shrink-0">
+        <div className="bg-[#073B4C] text-[#F2F2ED] px-6 py-3.5 border-t border-[#7CD5C7]/20 flex items-center justify-between text-xs font-mono shrink-0">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <ShieldCheck className="w-4 h-4 text-[#7CD5C7]" />
             <span>Cryptographic Chain-of-Custody & Cross-Case Entity Mapper</span>
           </div>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs cursor-pointer transition-colors"
+            className="px-4 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs cursor-pointer transition-colors"
           >
             Close Copilot
           </button>

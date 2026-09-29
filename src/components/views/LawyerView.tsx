@@ -67,22 +67,22 @@ export const LawyerView: React.FC = () => {
       )}
 
       {/* Banner */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200 bg-gradient-to-r from-purple-950 via-slate-900 to-slate-900 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-md">
+      <div className="bg-white rounded-3xl p-6 border border-[#7CD5C7]/30 bg-gradient-to-r from-[#073B4C] via-[#118AB2] to-[#073B4C] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-md">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-purple-900 text-purple-200 border border-purple-800">
+            <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#7CD5C7]/20 text-[#7CD5C7] border border-[#7CD5C7]/30">
               LW PORTAL • ID: {user?.id}
             </span>
-            <span className="text-xs font-mono text-purple-300 font-bold">CASE NO: {activeCaseId}</span>
+            <span className="text-xs font-mono text-[#7CD5C7] font-bold">CASE NO: {activeCaseId}</span>
           </div>
           <h1 className="text-2xl font-black tracking-wide">{activeCase?.title || `Case ${activeCaseId}`}</h1>
-          <p className="text-xs text-slate-300 mt-1">Read-Only Court Disclosure Vault for assigned case {activeCaseId}. Inspect electronic evidence records on screen.</p>
+          <p className="text-xs text-[#F2F2ED]/90 mt-1">Read-Only Court Disclosure Vault for assigned case {activeCaseId}. Inspect electronic evidence records on screen.</p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <div className="px-3.5 py-2 rounded-2xl bg-slate-800 border border-slate-700 text-right font-mono">
-            <div className="text-[9px] text-slate-400 uppercase">Clearance</div>
-            <div className="text-xs font-bold text-purple-300">READ-ONLY COURT VAULT</div>
+          <div className="px-3.5 py-2 rounded-2xl bg-white/10 border border-white/20 text-right font-mono">
+            <div className="text-[9px] text-[#7CD5C7] uppercase">Clearance</div>
+            <div className="text-xs font-bold text-white">READ-ONLY COURT VAULT</div>
           </div>
           <button
             onClick={() => setShowConfirmGiveUp(true)}
@@ -99,28 +99,28 @@ export const LawyerView: React.FC = () => {
           
           {/* Left Column: Read-Only Evidence Inspector */}
           <div className="lg:col-span-8 space-y-4">
-            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+            <div className="bg-white rounded-3xl p-6 border border-[#7CD5C7]/30 shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
                 <div>
-                  <span className="text-xs font-mono text-purple-700 font-bold">{activeCase.caseId}</span>
-                  <h2 className="text-base font-bold text-slate-900">{activeCase.title}</h2>
+                  <span className="text-xs font-mono text-[#118AB2] font-bold">{activeCase.caseId}</span>
+                  <h2 className="text-base font-bold text-[#073B4C]">{activeCase.title}</h2>
                 </div>
-                <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-purple-50 text-purple-800 border border-purple-200 flex items-center gap-1">
+                <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-[#F2F2ED] text-[#073B4C] border border-[#7CD5C7]/40 flex items-center gap-1">
                   <Lock className="w-3.5 h-3.5" /> READ-ONLY VAULT
                 </span>
               </div>
 
               <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2 font-mono">
-                  <Folder className="w-4 h-4 text-purple-600" /> Uploaded Case Records ({activeCase.uploadedFiles.length})
+                <h3 className="text-xs font-bold text-[#073B4C] uppercase tracking-wider flex items-center gap-2 font-mono">
+                  <Folder className="w-4 h-4 text-[#118AB2]" /> Uploaded Case Records ({activeCase.uploadedFiles.length})
                 </h3>
 
                 {activeCase.uploadedFiles.length > 0 ? (
                   activeCase.uploadedFiles.map((file) => (
-                    <div key={file.fileId} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs">
+                    <div key={file.fileId} className="p-4 rounded-2xl bg-[#F2F2ED]/50 border border-slate-200 space-y-2.5 text-xs">
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-slate-900 flex items-center gap-2 truncate">
-                          <FileText className="w-4 h-4 text-purple-600 shrink-0" /> {file.fileName}
+                          <FileText className="w-4 h-4 text-[#118AB2] shrink-0" /> {file.fileName}
                         </span>
                         <div className="flex items-center gap-2 shrink-0">
                           <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-white text-slate-700 border border-slate-300">
@@ -128,7 +128,7 @@ export const LawyerView: React.FC = () => {
                           </span>
                           <button
                             onClick={() => setViewingFile(file)}
-                            className="px-3 py-1 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-[11px] flex items-center gap-1 cursor-pointer transition-all shadow-xs"
+                            className="px-3 py-1 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white font-bold text-[11px] flex items-center gap-1 cursor-pointer transition-all shadow-xs"
                           >
                             <Eye className="w-3.5 h-3.5" /> Open Document
                           </button>
@@ -138,16 +138,16 @@ export const LawyerView: React.FC = () => {
                         {file.description}
                       </p>
                       <div className="text-[10px] text-slate-500 flex items-center justify-between pt-1 border-t border-slate-200 font-mono">
-                        <span>Uploaded by: <strong className="text-purple-900">{file.uploadedByOfficerName} ({file.uploadedByOfficerId})</strong></span>
+                        <span>Uploaded by: <strong className="text-[#073B4C]">{file.uploadedByOfficerName} ({file.uploadedByOfficerId})</strong></span>
                         <span>{file.uploadTime}</span>
                       </div>
-                      <div className="font-mono text-[9px] text-emerald-700 truncate">SHA-256 Seal: {file.sha256Hash}</div>
+                      <div className="font-mono text-[9px] text-[#118AB2] truncate">SHA-256 Seal: {file.sha256Hash}</div>
                     </div>
                   ))
                 ) : (
-                  <div className="p-10 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-500 text-center space-y-2 font-mono">
+                  <div className="p-10 rounded-2xl bg-[#F2F2ED]/50 border border-slate-200 text-xs text-slate-500 text-center space-y-2 font-mono">
                     <Folder className="w-8 h-8 text-slate-400 mx-auto opacity-60" />
-                    <div className="font-bold text-slate-800">No uploaded files for Case {activeCaseId} yet</div>
+                    <div className="font-bold text-[#073B4C]">No uploaded files for Case {activeCaseId} yet</div>
                     <p className="text-[11px]">When a Police Officer or Forensic Officer uploads a file for this case, it will appear here for court disclosure inspection.</p>
                   </div>
                 )}
@@ -158,24 +158,24 @@ export const LawyerView: React.FC = () => {
 
           {/* Right Column: Court Vault Information & Case Custody Controls */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
-              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 pb-2.5 font-mono">
-                <FolderLock className="w-4 h-4 text-purple-600" /> Disclosure Controls
+            <div className="bg-white rounded-3xl p-5 border border-[#7CD5C7]/30 shadow-sm space-y-4">
+              <h2 className="text-xs font-bold text-[#073B4C] uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 pb-2.5 font-mono">
+                <FolderLock className="w-4 h-4 text-[#118AB2]" /> Disclosure Controls
               </h2>
 
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="p-4 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/40 space-y-3">
                 <div className="flex items-center gap-3">
-                  <FileText className="w-8 h-8 text-purple-600 shrink-0" />
+                  <FileText className="w-8 h-8 text-[#118AB2] shrink-0" />
                   <div>
-                    <div className="text-xs font-bold text-slate-900">On-Screen Court Viewer</div>
+                    <div className="text-xs font-bold text-[#073B4C]">On-Screen Court Viewer</div>
                     <div className="text-[10px] text-slate-500 font-mono">Electronic Evidence Inspection</div>
                   </div>
                 </div>
 
                 <div className="text-xs text-slate-600 space-y-1 pt-2 border-t border-slate-200 font-mono">
-                  <div className="flex justify-between"><span>Case ID:</span> <strong className="text-blue-900">{activeCaseId}</strong></div>
-                  <div className="flex justify-between"><span>Assigned Counsel:</span> <strong className="text-purple-800">{user?.name} ({user?.id})</strong></div>
-                  <div className="flex justify-between"><span>Integrity Seal:</span> <strong className="text-emerald-700">IMMUTABLE (EVM)</strong></div>
+                  <div className="flex justify-between"><span>Case ID:</span> <strong className="text-[#118AB2]">{activeCaseId}</strong></div>
+                  <div className="flex justify-between"><span>Assigned Counsel:</span> <strong className="text-[#073B4C]">{user?.name} ({user?.id})</strong></div>
+                  <div className="flex justify-between"><span>Integrity Seal:</span> <strong className="text-[#118AB2]">IMMUTABLE (EVM)</strong></div>
                 </div>
               </div>
 
@@ -196,8 +196,8 @@ export const LawyerView: React.FC = () => {
                 </button>
               </div>
 
-              <div className="p-4 rounded-2xl bg-purple-50 border border-purple-200 text-[11px] text-purple-900 leading-relaxed flex items-start gap-2.5 font-mono">
-                <Lock className="w-4 h-4 text-purple-700 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/40 text-[11px] text-[#073B4C] leading-relaxed flex items-start gap-2.5 font-mono">
+                <Lock className="w-4 h-4 text-[#118AB2] shrink-0 mt-0.5" />
                 <span>As a Lawyer/Prosecutor, your access to Case {activeCaseId} is strictly read-only on screen. File downloads are restricted by security policy.</span>
               </div>
             </div>
@@ -205,9 +205,9 @@ export const LawyerView: React.FC = () => {
 
         </div>
       ) : (
-        <div className="bg-white rounded-3xl p-12 text-center space-y-4 border border-slate-200 shadow-sm">
-          <AlertCircle className="w-12 h-12 text-purple-600 mx-auto opacity-70" />
-          <h2 className="text-lg font-bold text-slate-900">No Case Record Found for "{activeCaseId}"</h2>
+        <div className="bg-white rounded-3xl p-12 text-center space-y-4 border border-[#7CD5C7]/30 shadow-sm">
+          <AlertCircle className="w-12 h-12 text-[#118AB2] mx-auto opacity-70" />
+          <h2 className="text-lg font-bold text-[#073B4C]">No Case Record Found for "{activeCaseId}"</h2>
         </div>
       )}
 

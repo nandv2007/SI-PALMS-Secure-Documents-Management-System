@@ -115,6 +115,15 @@ async def upload_file_to_case(
             uploaded_by=f"{name} ({user_id})"
         )
 
+        # Extract document text for deep search index
+        extracted_file_text = ""
+        if storage_path:
+            try:
+                from db import extract_text_from_storage
+                extracted_file_text = extract_text_from_storage(storage_path)
+            except Exception as ex:
+                print("[TEXT EXTRACTION ON UPLOAD ERROR]", ex)
+
         # Insert into uploaded_files
         db.execute(
             """INSERT INTO uploaded_files (
@@ -122,8 +131,8 @@ async def upload_file_to_case(
                 uploadedByOfficerId, uploadedByOfficerName, uploadedByRole,
                 uploadTime, category, sha256Hash, description, txHash, blockNumber,
                 digitalSignature, signerPublicKey, version, versionNumber, parentFileId,
-                changeSummary, isLatestVersion
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                changeSummary, isLatestVersion, fileText
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (
                 file_id,
                 clean_case_id,
@@ -146,9 +155,14 @@ async def upload_file_to_case(
                 calculated_version_number,
                 effective_parent_id,
                 final_change_summary,
-                True
+                True,
+                extracted_file_text
             )
         )
+
+        # Ensure officer and user case assignment is registered
+        db.execute("INSERT IGNORE INTO case_officers (caseId, officerId) VALUES (%s, %s)", (clean_case_id, user_id))
+        db.execute("INSERT IGNORE INTO user_cases (userId, caseId) VALUES (%s, %s)", (user_id, clean_case_id))
 
         # Insert into blockchain_ledger
         db.execute(

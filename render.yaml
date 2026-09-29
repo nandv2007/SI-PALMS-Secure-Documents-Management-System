@@ -1,31 +1,39 @@
+# Render Blueprint for the SI-PALMS / Secure Document project.
+# Configure MYSQL_* environment variables in the Render dashboard using an
+# externally hosted MySQL-compatible database. Render does not provide MySQL.
 services:
-  # =======================================================
-  # SI-PALMS: Secure Documents Management System
-  # Full-Stack Web Service (FastAPI Backend + React SPA)
-  # =======================================================
   - type: web
-    name: secure-documents-system
+    name: secure-document-api
     runtime: python
-    plan: free
-    region: oregon # or frankfurt, ohio, singapore
-    buildCommand: "npm install && npm run build && pip install -r server/requirements.txt"
-    startCommand: "uvicorn server.main:app --host 0.0.0.0 --port $PORT"
+    rootDir: server
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/health
-    autoDeploy: true
     envVars:
-      - key: PORT
-        value: 10000
-      - key: JWT_SECRET
-        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.9
       - key: MYSQL_HOST
         sync: false
       - key: MYSQL_PORT
-        value: 3306
+        value: "3306"
       - key: MYSQL_USER
         sync: false
       - key: MYSQL_PASSWORD
         sync: false
       - key: MYSQL_DATABASE
         value: sipalms_db
-      - key: MYSQL_SSL_MODE
-        value: "false"
+      - key: JWT_SECRET
+        generateValue: true
+
+  - type: web
+    name: secure-document-frontend
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

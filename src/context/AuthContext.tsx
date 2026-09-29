@@ -453,6 +453,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         reader.readAsDataURL(file);
       }) : undefined;
 
+      let extractedText = '';
+      if (file) {
+        try {
+          if (file.type.includes('text') || file.name.endsWith('.txt') || file.name.endsWith('.json') || file.name.endsWith('.csv') || file.name.endsWith('.md')) {
+            extractedText = await file.text();
+          } else {
+            extractedText = `${file.name} ${description} ${category}`;
+          }
+        } catch {
+          extractedText = `${file.name} ${description}`;
+        }
+      }
+
       const fileName = file?.name || fallbackFileName;
       const sha256Hash = tempHash;
       const blockNumber = 10429 + Math.floor(Math.random() * 50);
@@ -484,7 +497,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         versionNumber: versionNum,
         parentFileId: parentFileId || null,
         changeSummary: finalSummary,
-        isLatestVersion: true
+        isLatestVersion: true,
+        fileText: extractedText
       };
 
       setCases(prev => {

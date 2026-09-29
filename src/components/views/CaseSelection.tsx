@@ -90,24 +90,24 @@ export const CaseSelection: React.FC = () => {
       />
 
       <main className="min-h-[calc(100vh-4rem)] max-w-6xl mx-auto p-6 flex items-center">
-        <section className="w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-xl space-y-8">
+        <section className="w-full bg-white rounded-3xl p-8 border border-[#7CD5C7]/30 shadow-xl space-y-8">
           
           {/* Top Header Banner */}
-          <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-slate-200">
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-[#7CD5C7]/30">
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border ${ROLE_CONFIGS[user.prefix].badgeColor}`}>
                   {user.id} ({user.prefix})
                 </span>
-                <span className="text-xs font-mono text-blue-700 font-bold uppercase tracking-wider">
+                <span className="text-xs font-mono text-[#118AB2] font-bold uppercase tracking-wider">
                   {ROLE_CONFIGS[user.prefix].clearanceLevel}
                 </span>
               </div>
 
-              <h1 className="text-3xl font-black text-slate-900 tracking-wider">
+              <h1 className="text-3xl font-black text-[#073B4C] tracking-wider">
                 {isForensicOfficer ? 'Forensic Lab Portal' : isLawyer ? 'Lawyer Disclosure Portal' : 'Case Workspace Selection'}
               </h1>
-              <p className="text-xs text-slate-500 mt-1 max-w-xl">
+              <p className="text-xs text-slate-600 mt-1 max-w-xl">
                 {isForensicOfficer
                   ? 'Select or search a case dispatched to the Forensic Lab by a Police Officer to upload lab findings.'
                   : isLawyer
@@ -120,24 +120,24 @@ export const CaseSelection: React.FC = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowPersonSearchModal(true)}
-                className="p-4 rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-950 text-white border border-blue-700/50 shadow-md hover:shadow-xl transition-all cursor-pointer text-left space-y-1 group"
+                className="p-4 rounded-2xl bg-gradient-to-r from-[#073B4C] via-[#118AB2] to-[#073B4C] text-white border border-[#7CD5C7]/50 shadow-md hover:shadow-xl transition-all cursor-pointer text-left space-y-1 group"
               >
-                <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-cyan-300 uppercase">
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-300 animate-pulse" /> Entity & Case Search
+                <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-[#7CD5C7] uppercase">
+                  <Sparkles className="w-3.5 h-3.5 text-[#7CD5C7] animate-pulse" /> Entity & Case Search
                 </div>
-                <div className="text-xs font-black text-white group-hover:text-cyan-200 flex items-center gap-2">
-                  Search Person → Find Cases <ArrowRight className="w-3.5 h-3.5 text-cyan-400" />
+                <div className="text-xs font-black text-white group-hover:text-[#7CD5C7] flex items-center gap-2">
+                  Search Person → Find Cases <ArrowRight className="w-3.5 h-3.5 text-[#7CD5C7]" />
                 </div>
               </button>
 
-              <div className="shrink-0 rounded-2xl bg-purple-50 border border-purple-200 p-4 text-center min-w-[150px] shadow-2xs">
-                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-700">
+              <div className="shrink-0 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/50 p-4 text-center min-w-[150px] shadow-2xs">
+                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#118AB2]">
                   {isLawyer ? 'Active Handling' : isForensicOfficer ? 'Lab Dispatches' : 'Authorized Cases'}
                 </div>
-                <div className="text-3xl leading-none mt-1 font-black text-purple-950">
+                <div className="text-3xl leading-none mt-1 font-black text-[#073B4C]">
                   {displayedCases.length}
                 </div>
-                <div className="text-[10px] text-purple-700 mt-1 font-mono">
+                <div className="text-[10px] text-slate-600 mt-1 font-mono">
                   {isLawyer ? 'Exclusive Vaults' : isForensicOfficer ? 'Ready for Report' : 'Portal Workspaces'}
                 </div>
               </div>
@@ -152,8 +152,8 @@ export const CaseSelection: React.FC = () => {
         )}
 
         {successMsg && (
-          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-center gap-3 shadow-2xs">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+          <div className="p-4 rounded-2xl bg-[#7CD5C7]/20 border border-[#7CD5C7] text-xs text-[#073B4C] flex items-center gap-3 shadow-2xs">
+            <CheckCircle2 className="w-5 h-5 text-[#118AB2] shrink-0" />
             <div className="font-semibold">{successMsg}</div>
           </div>
         )}
@@ -161,8 +161,8 @@ export const CaseSelection: React.FC = () => {
         {/* FORENSIC OFFICER PORTAL */}
         {isForensicOfficer ? (
           <div className="space-y-6">
-            <form onSubmit={handleForensicSubmit} className="space-y-3 p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200">
-              <label className="block text-xs font-bold text-emerald-900 uppercase tracking-wider">Search Dispatched Case Number</label>
+            <form onSubmit={handleForensicSubmit} className="space-y-3 p-6 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/40">
+              <label className="block text-xs font-bold text-[#073B4C] uppercase tracking-wider">Search Dispatched Case Number</label>
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-1">
                   <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
@@ -170,11 +170,11 @@ export const CaseSelection: React.FC = () => {
                     value={caseNumber}
                     onChange={(event) => setCaseNumber(event.target.value)}
                     placeholder="e.g. CASE-102 or CASE-103"
-                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 font-mono text-xs focus:outline-none focus:border-emerald-600"
+                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 font-mono text-xs focus:outline-none focus:border-[#118AB2]"
                     required
                   />
                 </div>
-                <button type="submit" className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all">
+                <button type="submit" className="px-6 py-3 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all">
                   Open Case <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -185,27 +185,27 @@ export const CaseSelection: React.FC = () => {
 
             {forensicDispatchedCases.length > 0 && (
               <div className="space-y-3">
-                <div className="text-xs font-bold text-slate-700 font-mono">Dispatched Cases Ready for Lab Report Upload</div>
+                <div className="text-xs font-bold text-[#073B4C] font-mono">Dispatched Cases Ready for Lab Report Upload</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {forensicDispatchedCases.map((c) => (
                     <div
                       key={c.caseId}
                       onClick={() => openCase(c.caseId)}
-                      className="p-5 rounded-2xl border border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100/70 transition-all cursor-pointer flex flex-col justify-between shadow-2xs group"
+                      className="p-5 rounded-2xl border border-[#7CD5C7]/40 bg-[#F2F2ED]/50 hover:bg-[#7CD5C7]/20 transition-all cursor-pointer flex flex-col justify-between shadow-2xs group"
                     >
                       <div>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-mono font-bold text-emerald-800">{c.caseId}</span>
-                          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 border border-emerald-300">
+                          <span className="text-xs font-mono font-bold text-[#118AB2]">{c.caseId}</span>
+                          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#7CD5C7]/30 text-[#073B4C] border border-[#7CD5C7]/50">
                             {c.status}
                           </span>
                         </div>
-                        <h3 className="mt-2 text-sm font-bold text-slate-900 group-hover:text-emerald-950 transition-colors">{c.title}</h3>
+                        <h3 className="mt-2 text-sm font-bold text-[#073B4C] group-hover:text-[#118AB2] transition-colors">{c.title}</h3>
                         <p className="mt-1 text-xs text-slate-500">{c.incidentLocation}</p>
                       </div>
                       <button
                         onClick={(e) => { e.stopPropagation(); openCase(c.caseId); }}
-                        className="mt-4 text-xs font-bold text-emerald-800 hover:text-emerald-950 flex items-center gap-1 cursor-pointer pt-3 border-t border-emerald-200"
+                        className="mt-4 text-xs font-bold text-[#118AB2] hover:text-[#073B4C] flex items-center gap-1 cursor-pointer pt-3 border-t border-[#7CD5C7]/30"
                       >
                         Upload Lab Report <ArrowRight className="w-3.5 h-3.5" />
                       </button>
@@ -218,12 +218,12 @@ export const CaseSelection: React.FC = () => {
         ) : (
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="text-xs font-bold text-slate-700 font-mono">
+              <div className="text-xs font-bold text-[#073B4C] font-mono">
                 {isLawyer ? 'Active Case Disclosure Vaults' : 'Authorized Case Workspaces'}
               </div>
               <button 
                 onClick={() => { setShowCaseForm(!showCaseForm); setError(''); setSuccessMsg(''); setCaseNumber(''); }} 
-                className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm transition-all"
+                className="px-4 py-2.5 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm transition-all"
               >
                 {showCaseForm ? <X className="w-4 h-4" /> : <PlusCircle className="w-4 h-4" />}
                 {showCaseForm ? 'Cancel' : user.prefix === 'PO' ? 'Create New Case' : 'Claim / Add Case Number'}
@@ -231,18 +231,18 @@ export const CaseSelection: React.FC = () => {
             </div>
 
             {showCaseForm && (
-              <form onSubmit={handleAddCase} className="p-5 rounded-2xl bg-purple-50 border border-purple-200 flex flex-col sm:flex-row gap-3">
+              <form onSubmit={handleAddCase} className="p-5 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/40 flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-1">
-                  <Search className="w-4 h-4 text-purple-500 absolute left-4 top-1/2 -translate-y-1/2" />
+                  <Search className="w-4 h-4 text-[#118AB2] absolute left-4 top-1/2 -translate-y-1/2" />
                   <input 
                     value={caseNumber} 
                     onChange={(event) => setCaseNumber(event.target.value)} 
                     placeholder="Enter case number, e.g. CASE-103" 
-                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-purple-200 text-slate-900 font-mono text-xs focus:outline-none focus:border-purple-600" 
+                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-[#7CD5C7]/50 text-slate-900 font-mono text-xs focus:outline-none focus:border-[#118AB2]" 
                     required 
                   />
                 </div>
-                <button type="submit" className="px-6 py-3 rounded-xl bg-purple-900 hover:bg-purple-800 text-white text-xs font-bold cursor-pointer shadow-sm">
+                <button type="submit" className="px-6 py-3 rounded-xl bg-[#073B4C] hover:bg-[#118AB2] text-white text-xs font-bold cursor-pointer shadow-sm transition-all">
                   {user.prefix === 'PO' ? 'Create & Launch Case' : 'Claim Case Handling'}
                 </button>
               </form>
@@ -254,35 +254,35 @@ export const CaseSelection: React.FC = () => {
                   <div 
                     key={caseRecord.caseId} 
                     onClick={() => openCase(caseRecord.caseId)} 
-                    className="p-6 rounded-2xl border border-slate-200 bg-white hover:border-blue-400 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between shadow-2xs group"
+                    className="p-6 rounded-2xl border border-slate-200 bg-white hover:border-[#118AB2] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between shadow-2xs group"
                   >
                     <div>
                       <div className="flex items-start justify-between gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white border border-blue-100 flex items-center justify-center transition-all shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-[#F2F2ED] group-hover:bg-[#118AB2] text-[#118AB2] group-hover:text-white border border-[#7CD5C7]/40 flex items-center justify-center transition-all shrink-0">
                           <FolderKanban className="w-5 h-5" />
                         </div>
                         
                         {isLawyer ? (
-                          <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-purple-700 text-white flex items-center gap-1">
+                          <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-[#073B4C] text-[#7CD5C7] flex items-center gap-1">
                             <UserCheck className="w-3.5 h-3.5" /> LAWYER CLAIMED
                           </span>
                         ) : (
-                          <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                          <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-[#F2F2ED] text-[#073B4C] border border-[#7CD5C7]/30">
                             {caseRecord.status.replace('_', ' ')}
                           </span>
                         )}
                       </div>
 
-                      <div className="mt-4 text-xs font-mono font-bold text-blue-700">{caseRecord.caseId}</div>
-                      <h2 className="mt-1 text-base font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{caseRecord.title}</h2>
+                      <div className="mt-4 text-xs font-mono font-bold text-[#118AB2]">{caseRecord.caseId}</div>
+                      <h2 className="mt-1 text-base font-bold text-slate-900 group-hover:text-[#118AB2] transition-colors">{caseRecord.title}</h2>
                       <p className="mt-1.5 text-xs text-slate-500">{caseRecord.incidentLocation}</p>
 
                       <div className="mt-3 flex items-center gap-3 text-[10px] font-mono text-slate-500 pt-2 border-t border-slate-100">
                         <span className="flex items-center gap-1 text-slate-600">
-                          <FileText className="w-3 h-3 text-blue-600" /> {caseRecord.uploadedFiles?.length || 0} Files
+                          <FileText className="w-3 h-3 text-[#118AB2]" /> {caseRecord.uploadedFiles?.length || 0} Files
                         </span>
                         <span className="flex items-center gap-1 text-slate-600">
-                          <Layers className="w-3 h-3 text-purple-600" /> {caseRecord.assignedOfficerIds?.length || 1} Officers
+                          <Layers className="w-3 h-3 text-[#118AB2]" /> {caseRecord.assignedOfficerIds?.length || 1} Officers
                         </span>
                       </div>
                     </div>
@@ -291,7 +291,7 @@ export const CaseSelection: React.FC = () => {
                     <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
                       <button 
                         onClick={(e) => { e.stopPropagation(); openCase(caseRecord.caseId); }}
-                        className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1.5 cursor-pointer"
+                        className="text-xs font-bold text-[#118AB2] hover:text-[#073B4C] flex items-center gap-1.5 cursor-pointer"
                       >
                         Open Workspace <ArrowRight className="w-3.5 h-3.5" />
                       </button>
@@ -309,9 +309,9 @@ export const CaseSelection: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="p-10 rounded-2xl border border-dashed border-slate-300 bg-slate-50 text-center text-xs text-slate-500 space-y-2 font-sans">
-                <div className="font-bold text-slate-800 text-sm">No cases currently linked to your officer profile</div>
-                <p className="text-slate-500 max-w-md mx-auto">
+              <div className="p-10 rounded-2xl border border-dashed border-[#7CD5C7] bg-[#F2F2ED]/50 text-center text-xs text-slate-500 space-y-2 font-sans">
+                <div className="font-bold text-[#073B4C] text-sm">No cases currently linked to your officer profile</div>
+                <p className="text-slate-600 max-w-md mx-auto">
                   Use <strong>Create / Add Case Number</strong> above to launch or claim a case workspace.
                 </p>
               </div>

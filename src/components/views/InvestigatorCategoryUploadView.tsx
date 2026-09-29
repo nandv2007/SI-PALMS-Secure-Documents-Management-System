@@ -25,9 +25,9 @@ export const InvestigatorCategoryUploadView: React.FC = () => {
 
   if (!activeCase) {
     return (
-      <div className="bg-white rounded-3xl p-12 text-center space-y-4 border border-slate-200 shadow-sm">
-        <AlertCircle className="w-12 h-12 text-amber-600 mx-auto opacity-70" />
-        <h2 className="text-lg font-bold text-slate-900">No Case Record Found for “{activeCaseId}”</h2>
+      <div className="bg-white rounded-3xl p-12 text-center space-y-4 border border-[#7CD5C7]/30 shadow-sm">
+        <AlertCircle className="w-12 h-12 text-[#118AB2] mx-auto opacity-70" />
+        <h2 className="text-lg font-bold text-[#073B4C]">No Case Record Found for “{activeCaseId}”</h2>
       </div>
     );
   }
@@ -41,25 +41,25 @@ export const InvestigatorCategoryUploadView: React.FC = () => {
       <DocumentViewerModal file={viewingFile} caseId={activeCaseId || ''} onClose={() => setViewingFile(null)} />
 
       {/* Banner */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200 bg-gradient-to-r from-amber-900 via-slate-900 to-slate-900 text-white shadow-md">
+      <div className="bg-white rounded-3xl p-6 border border-[#7CD5C7]/30 bg-gradient-to-r from-[#073B4C] via-[#118AB2] to-[#073B4C] text-white shadow-md">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-amber-800 text-amber-200 border border-amber-700">
+          <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#7CD5C7]/20 text-[#7CD5C7] border border-[#7CD5C7]/30">
             IN PORTAL • ID: {user?.id}
           </span>
-          <span className="text-xs font-mono text-cyan-300 font-bold">CASE NO: {activeCaseId}</span>
+          <span className="text-xs font-mono text-[#7CD5C7] font-bold">CASE NO: {activeCaseId}</span>
         </div>
         <h1 className="text-2xl font-black tracking-wide">{activeCase.title}</h1>
-        <p className="text-xs text-slate-300 mt-1">Investigator Workbench — Upload & Review Records across Analysis Categories</p>
+        <p className="text-xs text-[#F2F2ED]/90 mt-1">Investigator Workbench — Upload & Review Records across Analysis Categories</p>
       </div>
 
       {/* Shared Police & Forensic Records Card */}
-      <section className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+      <section className="bg-white rounded-3xl border border-[#7CD5C7]/30 p-6 shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
           <div>
-            <h2 className="text-sm font-bold text-slate-900">Police & Forensic Records</h2>
+            <h2 className="text-sm font-bold text-[#073B4C]">Police & Forensic Records</h2>
             <p className="mt-1 text-xs text-slate-500">Review case files uploaded by Police Officers and Forensic Officers for this case.</p>
           </div>
-          <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-mono font-bold text-amber-700 border border-amber-200">
+          <span className="rounded-full bg-[#F2F2ED] px-3 py-1 text-[10px] font-mono font-bold text-[#073B4C] border border-[#7CD5C7]/40">
             {sharedFiles.length} FILES
           </span>
         </div>
@@ -67,35 +67,35 @@ export const InvestigatorCategoryUploadView: React.FC = () => {
         {sharedFiles.length ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
             {sharedFiles.map((file) => (
-              <div key={file.fileId} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+              <div key={file.fileId} className="rounded-2xl border border-slate-200 bg-[#F2F2ED]/50 p-4 space-y-2">
                 <div className="flex items-center justify-between gap-2">
                   <span className="min-w-0 truncate text-xs font-bold text-slate-900 flex items-center gap-2">
-                    <FileText className="h-4 w-4 shrink-0 text-amber-600" />
+                    <FileText className="h-4 w-4 shrink-0 text-[#118AB2]" />
                     <span className="truncate">{file.fileName}</span>
                   </span>
                   <button
                     type="button"
                     onClick={() => setViewingFile(file)}
-                    className="px-3 py-1 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-all shrink-0 shadow-2xs"
+                    className="px-3 py-1 rounded-xl bg-[#118AB2] hover:bg-[#073B4C] text-white font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-all shrink-0 shadow-2xs"
                   >
                     <Eye className="h-3.5 w-3.5" /> View
                   </button>
                 </div>
                 <p className="text-[11px] text-slate-600 font-mono">
-                  {file.category.replaceAll('_', ' ')} • Uploaded by <strong className="text-slate-900">{file.uploadedByOfficerName}</strong>
+                  {file.category.replaceAll('_', ' ')} • Uploaded by <strong className="text-[#073B4C]">{file.uploadedByOfficerName}</strong>
                 </p>
               </div>
             ))}
           </div>
         ) : (
           <p className="flex items-center gap-2 py-2 text-xs text-slate-500 font-mono">
-            <FolderOpen className="h-4 w-4" /> No Police Officer or Forensic Officer files uploaded yet.
+            <FolderOpen className="h-4 w-4 text-[#118AB2]" /> No Police Officer or Forensic Officer files uploaded yet.
           </p>
         )}
       </section>
 
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-950 flex items-center gap-3 shadow-2xs">
-        <ShieldCheck className="h-5 w-5 shrink-0 text-amber-700" />
+      <div className="rounded-2xl border border-[#7CD5C7]/50 bg-[#7CD5C7]/10 p-4 text-xs text-[#073B4C] flex items-center gap-3 shadow-2xs">
+        <ShieldCheck className="h-5 w-5 shrink-0 text-[#118AB2]" />
         <p>Each investigation category keeps its own uploaded files. Select <strong>View</strong> to open and inspect evidence records.</p>
       </div>
 

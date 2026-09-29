@@ -52,27 +52,29 @@ export const Sidebar: React.FC = () => {
   const roleAccessibleTabs = ALL_TABS.filter(t => t.rolePrefix === user.prefix);
 
   return (
-    <aside className="w-full md:w-64 shrink-0 bg-white rounded-3xl p-4.5 border border-slate-200/90 flex flex-col justify-between h-auto md:h-[calc(100vh-6rem)] md:sticky top-20 shadow-sm">
+    <aside 
+      className="w-full md:w-72 lg:w-80 shrink-0 rounded-3xl p-5 border border-[#7CD5C7]/40 bg-white flex flex-col justify-between h-auto md:h-[calc(100vh-6rem)] md:sticky top-20 shadow-sm space-y-6"
+    >
       
-      <div className="space-y-5">
+      <div className="space-y-6">
         
         {/* Active Officer Workspace Header Card */}
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 text-white shadow-md border border-slate-800 space-y-2">
+        <div className="p-4 rounded-2xl bg-[#F2F2ED] border border-[#7CD5C7]/60 space-y-2 shadow-2xs">
           <div className="flex items-center justify-between">
-            <span className="text-[9px] font-mono font-extrabold uppercase tracking-wider text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/60">
+            <span className="text-[9px] font-mono font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-[#118AB2] text-white border border-[#118AB2]">
               {user.prefix} WORKSPACE
             </span>
-            <Shield className="w-3.5 h-3.5 text-blue-400" />
+            <Shield className="w-4 h-4 text-[#118AB2]" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-white leading-snug">{currentRoleCfg.title}</h3>
-            <p className="text-[10px] text-slate-400 font-mono mt-0.5">{user.station}</p>
+            <h3 className="text-sm font-bold text-[#073B4C] leading-snug">{currentRoleCfg.title}</h3>
+            <p className="text-[11px] font-mono mt-0.5 text-slate-500">{user.station}</p>
           </div>
         </div>
 
         {/* Dynamic Navigation Tabs */}
-        <div className="space-y-1.5">
-          <div className="px-1 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+        <div className="space-y-2">
+          <div className="px-1 text-[10px] font-mono font-bold uppercase tracking-wider text-[#118AB2]">
             Navigation Menu
           </div>
           {roleAccessibleTabs.map((tab) => {
@@ -83,22 +85,24 @@ export const Sidebar: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full px-3.5 py-3 rounded-2xl text-xs font-semibold flex items-center justify-between transition-all cursor-pointer group ${
+                className={`w-full px-3.5 py-3 rounded-2xl text-xs font-bold flex items-center justify-between transition-all cursor-pointer border shadow-2xs ${
                   isSelected
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-600/25 border border-blue-500/30'
-                    : 'text-slate-700 hover:bg-slate-100/90 hover:text-slate-950 border border-transparent'
+                    ? 'bg-[#118AB2] text-white border-[#118AB2] shadow-sm'
+                    : 'bg-[#F2F2ED] text-[#073B4C] border-[#7CD5C7]/50 hover:bg-[#7CD5C7]/20'
                 }`}
               >
-                <div className="flex items-center gap-3 truncate">
-                  <div className={`p-1.5 rounded-xl transition-colors ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200 group-hover:text-slate-900'
-                  }`}>
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div 
+                    className={`p-2 rounded-xl transition-colors shrink-0 ${
+                      isSelected ? 'bg-[#073B4C] text-[#7CD5C7]' : 'bg-white text-[#118AB2]'
+                    }`}
+                  >
                     <Icon className="w-4 h-4 shrink-0" />
                   </div>
-                  <span className="truncate">{tab.label}</span>
+                  <span className="font-bold text-left leading-tight text-xs">{tab.label}</span>
                 </div>
                 {isSelected && (
-                  <ChevronRight className="w-3.5 h-3.5 text-blue-200 shrink-0 ml-1" />
+                  <ChevronRight className="w-4 h-4 text-[#7CD5C7] shrink-0 ml-1.5" />
                 )}
               </button>
             );
@@ -108,11 +112,11 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* System Status Security Badge */}
-      <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500 font-mono">
-        <span className="flex items-center gap-1.5 font-bold text-slate-700">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Security Seal Active
+      <div className="pt-3.5 border-t border-[#7CD5C7]/30 flex items-center justify-between text-[10px] font-mono">
+        <span className="flex items-center gap-1.5 font-bold text-[#073B4C]">
+          <ShieldCheck className="w-4 h-4 text-[#118AB2]" /> Security Seal Active
         </span>
-        <span className="text-[9px] text-slate-400 font-semibold">v2.4</span>
+        <span className="text-[10px] font-semibold text-[#118AB2]">v2.4</span>
       </div>
 
     </aside>

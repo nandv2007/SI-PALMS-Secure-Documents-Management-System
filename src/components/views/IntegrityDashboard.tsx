@@ -34,31 +34,31 @@ export const IntegrityDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-slate-200 pb-4">
+      <div className="border-b border-[#7CD5C7]/30 pb-4">
         <div className="flex items-center gap-2">
-          <h1 className="text-xl font-bold tracking-tight text-slate-950 flex items-center gap-2">
-            <Fingerprint className="h-5 w-5 text-indigo-600" /> Evidence Integrity Check
+          <h1 className="text-xl font-bold tracking-tight text-[#073B4C] flex items-center gap-2">
+            <Fingerprint className="h-5 w-5 text-[#118AB2]" /> Evidence Integrity Check
           </h1>
-          <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+          <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-[#118AB2]/10 text-[#118AB2] border border-[#118AB2]/30">
             {activeCaseId || 'No Case'}
           </span>
         </div>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-slate-600">
           Verify digital SHA-256 cryptographic fingerprints against anchored blockchain smart contract ledger records.
         </p>
       </div>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm space-y-5">
+      <section className="rounded-3xl border border-[#7CD5C7]/30 bg-white p-6 shadow-sm space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
-            <h2 className="flex items-center gap-2 text-sm font-bold text-slate-900">
-              <Shield className="h-4 w-4 text-indigo-600" /> Cryptographic Ledger Audit
+            <h2 className="flex items-center gap-2 text-sm font-bold text-[#073B4C]">
+              <Shield className="h-4 w-4 text-[#118AB2]" /> Cryptographic Ledger Audit
             </h2>
             <p className="mt-0.5 text-xs text-slate-500">
               Inspect uploaded case files to ensure zero tampering and verify authenticity against immutable block hashes.
             </p>
           </div>
-          <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-mono font-bold text-slate-700">
+          <span className="rounded-full border border-[#7CD5C7]/40 bg-[#F2F2ED] px-3 py-1 text-[11px] font-mono font-bold text-[#073B4C]">
             SHA-256 · Ledger Anchor
           </span>
         </div>
@@ -70,10 +70,10 @@ export const IntegrityDashboard: React.FC = () => {
         )}
 
         {files.length === 0 ? (
-          <div className="p-8 text-center rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <div className="p-8 text-center rounded-2xl bg-[#F2F2ED]/50 border border-[#7CD5C7]/30 space-y-2">
             <Fingerprint className="w-8 h-8 text-slate-400 mx-auto" />
-            <p className="text-sm font-bold text-slate-700">No uploaded files in this case workspace.</p>
-            <p className="text-xs text-slate-500">Upload an evidence document under "Upload Case File Details" to verify its cryptographic ledger status.</p>
+            <p className="text-sm font-bold text-[#073B4C]">No uploaded files in this case workspace.</p>
+            <p className="text-xs text-slate-600">Upload an evidence document under "Upload Case File Details" to verify its cryptographic ledger status.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -84,14 +84,14 @@ export const IntegrityDashboard: React.FC = () => {
                 <div 
                   key={file.fileId} 
                   className={`rounded-2xl border p-4.5 space-y-3 transition-all ${
-                    isTampered ? 'border-rose-300 bg-rose-50/80 shadow-sm' : 'border-slate-200 bg-slate-50/70 hover:bg-slate-50'
+                    isTampered ? 'border-rose-300 bg-rose-50/80 shadow-sm' : 'border-[#7CD5C7]/30 bg-[#F2F2ED]/40 hover:bg-[#F2F2ED]/70'
                   }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="min-w-0">
                       <div className="truncate text-sm font-bold text-slate-900">{file.fileName}</div>
                       <div className="mt-1 font-mono text-[10px] text-slate-500">
-                        {file.fileId} · Sealed {file.uploadTime} · Category: <span className="font-bold text-slate-700">{file.category.replace('_', ' ')}</span>
+                        {file.fileId} · Sealed {file.uploadTime} · Category: <span className="font-bold text-[#073B4C]">{file.category.replace('_', ' ')}</span>
                       </div>
                     </div>
                     <div 
@@ -99,14 +99,14 @@ export const IntegrityDashboard: React.FC = () => {
                         isTampered 
                           ? 'bg-rose-100 text-rose-800 border border-rose-300' 
                           : result 
-                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' 
-                          : 'bg-slate-200 text-slate-700 border border-slate-300'
+                          ? 'bg-[#7CD5C7]/20 text-[#073B4C] border border-[#7CD5C7]/50' 
+                          : 'bg-[#F2F2ED] text-slate-700 border border-slate-300'
                       }`}
                     >
                       {isTampered ? (
                         <><ShieldAlert className="h-3.5 w-3.5" /> Integrity Mismatch</>
                       ) : result ? (
-                        <><ShieldCheck className="h-3.5 w-3.5" /> Verified Ledger Integrity</>
+                        <><ShieldCheck className="h-3.5 w-3.5 text-[#118AB2]" /> Verified Ledger Integrity</>
                       ) : (
                         <>Not Verified</>
                       )}
@@ -114,17 +114,17 @@ export const IntegrityDashboard: React.FC = () => {
                   </div>
 
                   {result && (
-                    <div className={`rounded-xl border p-3.5 text-[11px] ${isTampered ? 'border-rose-200 bg-white text-rose-950' : 'border-emerald-200 bg-white text-emerald-950'}`}>
+                    <div className={`rounded-xl border p-3.5 text-[11px] ${isTampered ? 'border-rose-200 bg-white text-rose-950' : 'border-[#7CD5C7]/40 bg-white text-[#073B4C]'}`}>
                       <p className="flex items-center gap-1.5 font-bold text-xs">
-                        {isTampered ? <AlertTriangle className="h-4 w-4 text-rose-600" /> : <CheckCircle2 className="h-4 w-4 text-emerald-600" />}
+                        {isTampered ? <AlertTriangle className="h-4 w-4 text-rose-600" /> : <CheckCircle2 className="h-4 w-4 text-[#118AB2]" />}
                         {result.verificationMessage}
                       </p>
                       <div className="mt-2 grid gap-2 md:grid-cols-2 font-mono text-[10px]">
-                        <div className="break-all p-2 rounded-lg bg-slate-50 border border-slate-200">
+                        <div className="break-all p-2 rounded-lg bg-[#F2F2ED] border border-[#7CD5C7]/30">
                           <b>Current File SHA-256:</b><br />
                           <span className="text-slate-700">{result.currentHash}</span>
                         </div>
-                        <div className="break-all p-2 rounded-lg bg-slate-50 border border-slate-200">
+                        <div className="break-all p-2 rounded-lg bg-[#F2F2ED] border border-[#7CD5C7]/30">
                           <b>Original Anchored SHA-256:</b><br />
                           <span className="text-slate-700">{result.onChainHash}</span>
                         </div>
@@ -137,7 +137,7 @@ export const IntegrityDashboard: React.FC = () => {
                       type="button" 
                       disabled={busy === file.fileId} 
                       onClick={() => verify(file.fileId)} 
-                      className="rounded-xl bg-slate-900 px-4 py-2 text-[11px] font-semibold text-white hover:bg-slate-700 disabled:opacity-50 transition-colors cursor-pointer shadow-2xs"
+                      className="rounded-xl bg-[#118AB2] hover:bg-[#073B4C] px-4 py-2 text-[11px] font-semibold text-white disabled:opacity-50 transition-colors cursor-pointer shadow-2xs"
                     >
                       {busy === file.fileId ? 'Verifying on Ledger…' : 'Verify File Integrity'}
                     </button>

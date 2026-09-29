@@ -1,11 +1,18 @@
 @import "tailwindcss";
 
+:root {
+  --color-primary: #118AB2;
+  --color-secondary: #7CD5C7;
+  --color-bg: #F2F2ED;
+  --color-dark: #073B4C;
+}
+
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 antialiased min-h-screen selection:bg-blue-500/20 selection:text-blue-900;
+    background-color: #F2F2ED;
+    color: #073B4C;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #f8fafc;
-    background-image: none;
+    min-height: 100vh;
   }
 }
 
@@ -16,64 +23,66 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #F2F2ED;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #118AB2;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #073B4C;
 }
 
-/* Glassmorphism / White Panel Styling */
-.glass-panel {
+/* Theme Panel Classes */
+.theme-panel {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(17, 138, 178, 0.2);
+  box-shadow: 0 4px 12px -2px rgba(17, 138, 178, 0.08);
 }
 
-.glass-panel-hover {
+.theme-panel-hover {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-panel-hover:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+.theme-panel-hover:hover {
+  border-color: #118AB2;
+  box-shadow: 0 10px 20px -4px rgba(17, 138, 178, 0.15);
   transform: translateY(-1px);
 }
 
-/* White Panel Styling */
-.white-panel {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+/* Theme Glow Classes */
+.border-glow-primary {
+  border-color: #118AB2;
+  box-shadow: 0 0 12px rgba(17, 138, 178, 0.25);
 }
 
-.white-panel-hover {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+.border-glow-secondary {
+  border-color: #7CD5C7;
+  box-shadow: 0 0 12px rgba(124, 213, 199, 0.3);
 }
 
-.white-panel-hover:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-  transform: translateY(-1px);
+.bg-theme-main {
+  background-color: #F2F2ED;
 }
 
-/* Accent Borders */
-.border-glow-blue {
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.12);
+.bg-theme-primary {
+  background-color: #118AB2;
 }
 
-.border-glow-purple {
-  border-color: rgba(168, 85, 247, 0.5);
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.12);
+.bg-theme-secondary {
+  background-color: #7CD5C7;
 }
 
-.border-glow-emerald {
-  border-color: rgba(16, 185, 129, 0.5);
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.12);
+.text-theme-primary {
+  color: #118AB2;
+}
+
+.text-theme-secondary {
+  color: #7CD5C7;
+}
+
+.text-theme-dark {
+  color: #073B4C;
 }
